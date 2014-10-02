@@ -12,7 +12,7 @@ import smartroads.primitives.MyPoint;
 public interface IMyDrawable extends IMyPhysical
 {
    public void draw(Graphics2D g); 
-   public void update(double delta);
+   public void update(int delta);
    public MyPoint getVelocity();
    public void setVelocity(MyPoint vel);
    public void setColor(Color c);

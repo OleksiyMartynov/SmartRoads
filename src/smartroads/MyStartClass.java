@@ -1,11 +1,11 @@
-/*
-
- */
-
 package smartroads;
 
-import smartroads.primitives.MyLine;
+import java.awt.Color;
 import smartroads.primitives.MyPoint;
+import smartroads.visual.display.MyCanvasWindow;
+import smartroads.visual.drawables.MyDrawableLine;
+import smartroads.visual.drawables.MyDrawablePoint;
+import smartroads.visual.drawables.MyDrawableRectangle;
 
 /**
  *
@@ -17,11 +17,13 @@ public class MyStartClass {
      * @param args the command line arguments
      */
     public static void main(String[] args) 
-    {        
-        MyLine lOne = new MyLine(new MyPoint(0.0f,0.0f), new MyPoint(0.0f,5.0f));
-        MyLine lTwo = new MyLine(new MyPoint(0.1f, 1.0f), new MyPoint(2.0f,6.0f));
-        boolean status= lOne.isIntersecting(lTwo);
-        System.out.println("intersect:"+status);
+    {   
+        MyDrawableRectangle dr=MyDrawableRectangle.initDrawableRect(10, 10, 50, 50, Color.red);
+        //dr.setVelocity(new MyPoint(0.05f,-0.05f));
+        MyDrawableLine dl = new MyDrawableLine(new MyDrawablePoint(-51f, -51f), new MyDrawablePoint(50f, 50f));
+        dl.setVelocity(new MyPoint(1f,1f));
+        MyCanvasWindow cw= new MyCanvasWindow(300, 300, dr);
+        cw.startWindow();
     }
     
 }

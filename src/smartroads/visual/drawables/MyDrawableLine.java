@@ -32,7 +32,7 @@ public class MyDrawableLine extends MyLine implements IMyDrawable
     }
 
     @Override
-    public void update(double delta)
+    public void update(int delta)
     {
         pDrOne.update(delta);
         pDrTwo.update(delta);

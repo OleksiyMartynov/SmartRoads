@@ -30,12 +30,14 @@ public class MyDrawableShape extends MyShape implements IMyDrawable
     public void draw(Graphics2D g)
     {
         drawableLines.parallelStream().forEach(l->{l.draw(g);});
+        System.out.println("draw callaed");
     }
 
     @Override
-    public void update(double delta)
+    public void update(int delta)
     {
         drawableLines.parallelStream().forEach(l->{l.update(delta);});
+        System.out.println("update callaed");
     }
 
     @Override

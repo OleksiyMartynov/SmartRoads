@@ -25,9 +25,11 @@ public class MyDrawablePoint extends MyPoint implements IMyDrawable
     }
 
     @Override
-    public void update(double delta)
+    public void update(int delta)
     {
-        translate(new MyPoint((float)(getX()+velocity.getX()*delta), (float)(getY()+velocity.getY()*delta)));
+        float ch = (float)delta/1000f;
+        ch=0;
+        translate(velocity);
     }
 
     @Override
