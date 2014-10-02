@@ -8,7 +8,7 @@ package smartroads.primitives;
  *
  * @author Oleksiy
  */
-public class MyLine
+public class MyLine implements IMyPhysical
 {
     private MyPoint pOne, pTwo;
     private MyLine(){}
@@ -17,12 +17,7 @@ public class MyLine
         this.pOne = pOne;
         this.pTwo = pTwo;
     }
-    public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
-    {
-        pOne.rotateByDeg(pivotPoint, angleDegrees);
-        pTwo.rotateByDeg(pivotPoint, angleDegrees);
-    }
-
+    
     public MyPoint getpOne()
     {
         return pOne;
@@ -31,11 +26,6 @@ public class MyLine
     public MyPoint getpTwo()
     {
         return pTwo;
-    }
-    public void translate(MyPoint vec)
-    {
-        pOne.translate(vec);
-        pTwo.translate(vec);
     }
     public MyPoint getCenter()
     {
@@ -73,5 +63,18 @@ public class MyLine
         }
 
         return null; 
+    }
+    
+    @Override
+    public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
+    {
+        pOne.rotateByDeg(pivotPoint, angleDegrees);
+        pTwo.rotateByDeg(pivotPoint, angleDegrees);
+    }
+    @Override
+    public void translate(MyPoint vec)
+    {
+        pOne.translate(vec);
+        pTwo.translate(vec);
     }
 }
