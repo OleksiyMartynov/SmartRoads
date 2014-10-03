@@ -24,6 +24,9 @@ public class MyDrawableLine extends MyLine implements IMyDrawable
         pDrOne=pOne;
         pDrTwo=pTwo;
     }
+
+    
+    
     @Override
     public void draw(Graphics2D g)
     {
@@ -67,5 +70,20 @@ public class MyDrawableLine extends MyLine implements IMyDrawable
     {
         return color;
     }
+
+    @Override
+    public void setRotationVelocityDeg(double angleStepDegrees)
+    {
+        pDrOne.setRotationVelocityDeg(angleStepDegrees);
+        pDrTwo.setRotationVelocityDeg(angleStepDegrees);
+    }
+
+    @Override
+    public double getRotationVelocityDeg()
+    {
+        return (pDrOne.getRotationVelocityDeg()+pDrTwo.getRotationVelocityDeg())/2.0;
+    }
+
+
     
 }

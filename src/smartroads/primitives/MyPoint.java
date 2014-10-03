@@ -8,13 +8,20 @@ package smartroads.primitives;
 public class MyPoint implements IMyPhysical
 {
     private float x,y;
-
+    private MyPoint pivot;
+    private double rotation=0;
     private MyPoint(){}
     
     public MyPoint(float x, float y)
     {
         this.x = x;
         this.y = y;
+        
+    }
+    @Override
+    public MyPoint getCenter()
+    {
+        return new MyPoint(x,y);
     }
     public float getX()
     {
@@ -38,8 +45,8 @@ public class MyPoint implements IMyPhysical
     @Override
     public void translate(MyPoint other)
     {
-        x=x+other.getX();
-        y=y+other.getY();
+        x+=other.getX();
+        y+=other.getY();
     }
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
@@ -49,5 +56,28 @@ public class MyPoint implements IMyPhysical
         double sinTheta =Math.sin(angleInRadians);
         x=(int)(cosTheta*(x-pivotPoint.getX())-sinTheta*(y-pivotPoint.getY())+pivotPoint.getX());
         y=(int)(sinTheta*(x-pivotPoint.getX())+cosTheta*(y-pivotPoint.getY())+pivotPoint.getX());
+        rotation=angleDegrees;
+    }
+
+    @Override
+    public double getRotationDeg()
+    {
+        return rotation;
+    }
+
+    @Override
+    public void setPivotPoint(MyPoint p)
+    {
+        pivot=p;
+    }
+
+    @Override
+    public void rotateByDeg(double angleDegrees)
+    {
+        if(pivot==null)
+        {
+            pivot=new MyPoint(x,y);
+        }
+        rotateByDeg(pivot, angleDegrees);
     }
 }

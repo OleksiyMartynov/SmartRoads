@@ -10,14 +10,16 @@ package smartroads.primitives;
  */
 public class MyLine implements IMyPhysical
 {
-    private MyPoint pOne, pTwo;
+    private MyPoint pOne, pTwo,pivot;
+    
     private MyLine(){}
     public MyLine(MyPoint pOne, MyPoint pTwo)
     {
         this.pOne = pOne;
         this.pTwo = pTwo;
+        pivot = getCenter();
     }
-    
+
     public MyPoint getpOne()
     {
         return pOne;
@@ -27,6 +29,7 @@ public class MyLine implements IMyPhysical
     {
         return pTwo;
     }
+    @Override
     public MyPoint getCenter()
     {
         float xS= (pOne.getX()+pTwo.getX())/2.0f;
@@ -76,5 +79,25 @@ public class MyLine implements IMyPhysical
     {
         pOne.translate(vec);
         pTwo.translate(vec);
+    }
+
+    @Override
+    public double getRotationDeg()
+    {
+        return (pOne.getRotationDeg()+pTwo.getRotationDeg())/2.0;
+    }
+    
+    @Override
+    public void setPivotPoint(MyPoint p)
+    {
+        pivot=p;
+        pOne.setPivotPoint(p);
+        pTwo.setPivotPoint(p);
+    }
+
+    @Override
+    public void rotateByDeg(double angleDegrees)
+    {
+        rotateByDeg(pivot, angleDegrees);
     }
 }

@@ -15,6 +15,8 @@ public interface IMyDrawable extends IMyPhysical
    public void update(int delta);
    public MyPoint getVelocity();
    public void setVelocity(MyPoint vel);
+   public void setRotationVelocityDeg(double angleStepDegrees);
+   public double getRotationVelocityDeg();
    public void setColor(Color c);
    public Color getColor();
 }

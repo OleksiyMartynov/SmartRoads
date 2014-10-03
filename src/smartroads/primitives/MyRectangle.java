@@ -31,4 +31,8 @@ public class MyRectangle extends MyShape
         lines.add(new MyLine(new MyPoint(x, y+height), new MyPoint(x, y)));
         return new MyRectangle(lines);
     }
+
+   
+
+
 }

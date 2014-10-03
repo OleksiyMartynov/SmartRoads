@@ -69,5 +69,21 @@ public class MyDrawableShape extends MyShape implements IMyDrawable
         });
         return avgColor.toSystemColor();
     }
+
+    @Override
+    public void setRotationVelocityDeg(double angleStepDegrees)
+    {
+        drawableLines.parallelStream().forEach(l->{l.setRotationVelocityDeg(angleStepDegrees);});
+    }
+
+    @Override
+    public double getRotationVelocityDeg()
+    {
+        MyPoint sum = new MyPoint(0, 0);
+        drawableLines.parallelStream().forEach((MyDrawableLine l)->{sum.translate(new MyPoint((float)l.getRotationVelocityDeg(), 1));});
+        return sum.getX()/sum.getY();
+    }
+
+
     
 }

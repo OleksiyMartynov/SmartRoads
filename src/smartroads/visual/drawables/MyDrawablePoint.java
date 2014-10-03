@@ -11,12 +11,13 @@ import smartroads.primitives.MyPoint;
 public class MyDrawablePoint extends MyPoint implements IMyDrawable
 {
     private MyPoint velocity = new MyPoint(0, 0);
+    private double rotationVelocityDeg =0;
     private Color color = new Color(255, 255, 255);
     public MyDrawablePoint(float x, float y)
     {
         super(x, y);
     }
-
+    
     @Override
     public void draw(Graphics2D g)
     {
@@ -28,8 +29,13 @@ public class MyDrawablePoint extends MyPoint implements IMyDrawable
     public void update(int delta)
     {
         float ch = (float)delta/1000f;
-        ch=0;
-        translate(velocity);
+        float newX = velocity.getX()*ch;
+        float newY = velocity.getY()*ch;
+        //System.out.println("ch"+ch+" x"+newX+" y"+newY);
+        translate(new MyPoint(newX, newY));
+        //todo fix rotation
+        //rotateByDeg(getRotationDeg()+rotationVelocityDeg*ch);
+        
     }
 
     @Override
@@ -54,6 +60,18 @@ public class MyDrawablePoint extends MyPoint implements IMyDrawable
     public Color getColor()
     {
         return color;
+    }
+
+    @Override
+    public void setRotationVelocityDeg(double angleStepDegrees)
+    {
+        rotationVelocityDeg= angleStepDegrees;
+    }
+
+    @Override
+    public double getRotationVelocityDeg()
+    {
+        return rotationVelocityDeg;
     }
     
 }
