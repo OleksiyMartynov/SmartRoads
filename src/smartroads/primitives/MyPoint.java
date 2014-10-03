@@ -18,6 +18,12 @@ public class MyPoint implements IMyPhysical
         this.y = y;
         
     }
+    public MyPoint(float x, float y, MyPoint pivot)
+    {
+        this.x = x;
+        this.y = y;
+        this.pivot=pivot;
+    }
     @Override
     public MyPoint getCenter()
     {
@@ -54,9 +60,15 @@ public class MyPoint implements IMyPhysical
         double angleInRadians = angleDegrees *(Math.PI/180);
         double cosTheta = Math.cos(angleInRadians);
         double sinTheta =Math.sin(angleInRadians);
-        x=(int)(cosTheta*(x-pivotPoint.getX())-sinTheta*(y-pivotPoint.getY())+pivotPoint.getX());
-        y=(int)(sinTheta*(x-pivotPoint.getX())+cosTheta*(y-pivotPoint.getY())+pivotPoint.getX());
-        rotation=angleDegrees;
+        double newX=(cosTheta*(x-pivotPoint.getX())-sinTheta*(y-pivotPoint.getY())+pivotPoint.getX());
+        double newY=(sinTheta*(x-pivotPoint.getX())+cosTheta*(y-pivotPoint.getY())+pivotPoint.getY());
+        x= (float)newX;
+        y=(float)newY;
+        rotation+=angleDegrees;
+        //System.out.println("x"+x+" y"+y);
+        //System.out.println(pivotPoint.toString());
+        //System.out.println("r"+rotation);
+        //System.out.println("angle"+angleDegrees);
     }
 
     @Override
@@ -77,7 +89,15 @@ public class MyPoint implements IMyPhysical
         if(pivot==null)
         {
             pivot=new MyPoint(x,y);
+            System.out.println("null pivot");
         }
         rotateByDeg(pivot, angleDegrees);
     }
+
+    @Override
+    public String toString()
+    {
+        return "MyPoint{" + "x=" + x + ", y=" + y + ", pivot=" + pivot + ", rotation=" + rotation + '}';
+    }
+    
 }

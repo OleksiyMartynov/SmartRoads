@@ -29,12 +29,10 @@ public class MyDrawablePoint extends MyPoint implements IMyDrawable
     public void update(int delta)
     {
         float ch = (float)delta/1000f;
-        float newX = velocity.getX()*ch;
-        float newY = velocity.getY()*ch;
-        //System.out.println("ch"+ch+" x"+newX+" y"+newY);
+        float newX = velocity.getX();
+        float newY = velocity.getY();
+        rotateByDeg(rotationVelocityDeg);
         translate(new MyPoint(newX, newY));
-        //todo fix rotation
-        //rotateByDeg(getRotationDeg()+rotationVelocityDeg*ch);
         
     }
 

@@ -17,9 +17,8 @@ public class MyLine implements IMyPhysical
     {
         this.pOne = pOne;
         this.pTwo = pTwo;
-        pivot = getCenter();
+        //pivot = getCenter();
     }
-
     public MyPoint getpOne()
     {
         return pOne;
@@ -32,9 +31,11 @@ public class MyLine implements IMyPhysical
     @Override
     public MyPoint getCenter()
     {
-        float xS= (pOne.getX()+pTwo.getX())/2.0f;
-        float yS=(pOne.getY()+pTwo.getY())/2.0f;
-        return new MyPoint(xS, yS);
+        float xS= (pTwo.getX()-pOne.getX())/2.0f+pOne.getX();
+        float yS=(pTwo.getY()-pOne.getY())/2.0f+pOne.getY();
+        MyPoint np =new MyPoint(xS, yS);
+        //System.out.println(np.toString());
+        return np;
     }
     public MyPoint getPointOfIntersection(MyLine other)
     {
@@ -98,6 +99,10 @@ public class MyLine implements IMyPhysical
     @Override
     public void rotateByDeg(double angleDegrees)
     {
+        if(pivot==null)
+        {
+            pivot=getCenter();
+        }
         rotateByDeg(pivot, angleDegrees);
     }
 }

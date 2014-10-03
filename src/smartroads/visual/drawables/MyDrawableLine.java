@@ -25,8 +25,6 @@ public class MyDrawableLine extends MyLine implements IMyDrawable
         pDrTwo=pTwo;
     }
 
-    
-    
     @Override
     public void draw(Graphics2D g)
     {
