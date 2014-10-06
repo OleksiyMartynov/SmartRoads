@@ -1,5 +1,6 @@
 package smartroads.primitives;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,7 @@ public abstract class MyShape implements IMyPhysical
         return new MyPoint(avgPoint.getX()/countPoint.getX(),avgPoint.getY()/countPoint.getY());
     }
     
+    @Override
     public List<MyLine> getLines()
     {
         return lines;
@@ -67,4 +69,5 @@ public abstract class MyShape implements IMyPhysical
     {
         rotateByDeg(pivot, angleDegrees);
     }
+
 }

@@ -1,5 +1,8 @@
 package smartroads.primitives;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Oleksiy
@@ -98,6 +101,14 @@ public class MyPoint implements IMyPhysical
     public String toString()
     {
         return "MyPoint{" + "x=" + x + ", y=" + y + ", pivot=" + pivot + ", rotation=" + rotation + '}';
+    }
+
+    @Override
+    public List<MyLine> getLines()
+    {
+        ArrayList<MyLine> list = new ArrayList<>();
+        list.add(new MyLine(this.getCenter(), this.getCenter()));
+        return list;
     }
     
 }

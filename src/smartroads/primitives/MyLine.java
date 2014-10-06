@@ -4,6 +4,9 @@
 
 package smartroads.primitives;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Oleksiy
@@ -45,30 +48,7 @@ public class MyLine implements IMyPhysical
     {
         return getPointOfIntersection(other) != null;
     }
-    private MyPoint intersect(float lOnePOneX, float lOnePOneY, float lOnePTwoX, float lOnePTwoY,  float lTwoPOneX, float lTwoPOneY, float lTwoPTwoX, float lTwoPTwoY)
-    {
-        float outPX,outPY;
-        float lOneSlopeX, lOneSlopeY, lTwoSlopeX, lTwoSlopeY;
-        lOneSlopeX = lOnePTwoX - lOnePOneX;     
-        lOneSlopeY = lOnePTwoY - lOnePOneY;
-        lTwoSlopeX = lTwoPTwoX - lTwoPOneX;     
-        lTwoSlopeY = lTwoPTwoY - lTwoPOneY;
-
-        float s, t;
-        float d =(-lTwoSlopeX * lOneSlopeY + lOneSlopeX * lTwoSlopeY);
-        s = (-lOneSlopeY * (lOnePOneX - lTwoPOneX) + lOneSlopeX * (lOnePOneY - lTwoPOneY)) / d;
-        t = ( lTwoSlopeX * (lOnePOneY - lTwoPOneY) - lTwoSlopeY * (lOnePOneX - lTwoPOneX)) / d;
-        System.out.println("s:"+s+" t:"+t);
-        if (s >= 0 && s <= 1 && t >= 0 && t <= 1)//collision
-        {
-            outPX = lOnePOneX + (t * lOneSlopeX);
-            outPY = lOnePOneY + (t * lOneSlopeY);            
-            return new MyPoint(outPX,outPY);
-        }
-
-        return null; 
-    }
-    
+        
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
     {
@@ -104,5 +84,13 @@ public class MyLine implements IMyPhysical
             pivot=getCenter();
         }
         rotateByDeg(pivot, angleDegrees);
+    }
+    
+    @Override
+    public List<MyLine> getLines()
+    {
+        ArrayList<MyLine> list = new ArrayList<>();
+        list.add(this);
+        return list;
     }
 }

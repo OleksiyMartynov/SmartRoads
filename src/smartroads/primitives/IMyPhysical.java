@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package smartroads.primitives;
+
+import java.util.List;
 
 /**
  *
@@ -17,4 +15,5 @@ public interface IMyPhysical
     public MyPoint getCenter();
     public void setPivotPoint(MyPoint p);
     public void rotateByDeg(double angleDegrees);
+    public List<MyLine> getLines();
 }
