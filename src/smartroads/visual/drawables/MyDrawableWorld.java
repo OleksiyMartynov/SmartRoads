@@ -4,7 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
+import smartroads.visual.drawables.collidables.IMyCollidable;
+import smartroads.visual.drawables.collidables.MyCollidableLine;
+import smartroads.visual.drawables.collidables.MyCollidablePoint;
+import smartroads.visual.drawables.collidables.MyCollidableRectangle;
 
 /**
  *
@@ -12,19 +17,20 @@ import smartroads.primitives.MyPoint;
  */
 public class MyDrawableWorld implements IMyDrawable
 {
-    private List<IMyDrawable> drawables = new ArrayList<>();
+    private List<IMyCollidable> drawables = new ArrayList<>();
+
     public MyDrawableWorld()
     {
         init();
     }
     private void  init()
     {
-        MyDrawableRectangle dr=MyDrawableRectangle.initDrawableRect(100, 100, 50, 50, Color.BLACK);
+        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 100, 50, 50, Color.BLACK);
         dr.setRotationVelocityDeg(1);
         //dr.rotateByDeg(dr.getCenter(), 90);
         dr.setVelocity(new MyPoint(1f,1f));
         
-        MyDrawableLine dl = new MyDrawableLine(new MyDrawablePoint(50f, 50f), new MyDrawablePoint(100f, 150f));  
+        MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(50f, 50f), new MyDrawablePoint(100f, 150f));  
         dl.setColor(Color.BLACK);
         dl.setPivotPoint(dl.getCenter());
         System.out.println(dl.getCenter().toString());
@@ -32,7 +38,7 @@ public class MyDrawableWorld implements IMyDrawable
         dl.setRotationVelocityDeg(1.0f);
         //dl.setVelocity(new MyPoint(1f,1f));
         
-        MyDrawablePoint dp= new MyDrawablePoint(77, 77);
+        MyCollidablePoint dp= new MyCollidablePoint(77, 77);
         dp.setColor(Color.BLACK);
         drawables.add(dl);
         drawables.add(dr);
@@ -48,7 +54,8 @@ public class MyDrawableWorld implements IMyDrawable
     public void update(int delta)
     {
         drawables.parallelStream().forEach(d->{d.update(delta);});
-        //drawables.parallelStream().forEach(d->{d.});
+        //todo fix collision
+        drawables.parallelStream().forEach(d1->{drawables.parallelStream().forEach(d2->{d2.isColliding(d1);});});
     }
 
     @Override
@@ -119,6 +126,12 @@ public class MyDrawableWorld implements IMyDrawable
 
     @Override
     public void rotateByDeg(double angleDegrees)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<MyLine> getLines()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

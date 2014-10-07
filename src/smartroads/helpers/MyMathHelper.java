@@ -1,8 +1,9 @@
 package smartroads.helpers;
 
+import java.util.ArrayList;
 import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
-import smartroads.primitives.MyShape;
+import smartroads.visual.drawables.collidables.IMyCollidable;
 
 /**
  *
@@ -23,7 +24,7 @@ public class MyMathHelper
         float d =(-lTwoSlopeX * lOneSlopeY + lOneSlopeX * lTwoSlopeY);
         s = (-lOneSlopeY * (lOnePOneX - lTwoPOneX) + lOneSlopeX * (lOnePOneY - lTwoPOneY)) / d;
         t = ( lTwoSlopeX * (lOnePOneY - lTwoPOneY) - lTwoSlopeY * (lOnePOneX - lTwoPOneX)) / d;
-        System.out.println("s:"+s+" t:"+t);
+        //System.out.println("s:"+s+" t:"+t);
         if (s >= 0 && s <= 1 && t >= 0 && t <= 1)//collision
         {
             outPX = lOnePOneX + (t * lOneSlopeX);
@@ -33,16 +34,16 @@ public class MyMathHelper
 
         return null; 
     }
+    
     public static MyPoint intersect(MyLine cur,MyLine other)
     {
         return intersect(cur.getpOne().getX(), cur.getpOne().getY(), cur.getpTwo().getX(), cur.getpTwo().getY(), other.getpOne().getX(), other.getpOne().getY(), other.getpTwo().getX(), other.getpTwo().getX());
     }
-    public static MyPoint intersect(MyShape cur, MyShape other)
+    
+    public static MyPoint intersect(IMyCollidable cur, IMyCollidable other)
     {
-        //todo finish the following
-        return cur.getLines().parallelStream().map((MyLine l2)->{    
-            return other.getLines().parallelStream().filter(l->{return MyMathHelper.intersect(l, l2)!=null;}).findAny().get();
-        }).filter((MyPoint a)->{ return a!=null; }).findAny().get();
-        
+        ArrayList<MyPoint> list = new ArrayList<>();
+        cur.getLines().forEach(l1->{other.getLines().forEach(l2->{list.add(MyMathHelper.intersect(l1, l2));});});
+        return list.get(0);
     }
 }

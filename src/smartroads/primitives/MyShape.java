@@ -35,11 +35,7 @@ public abstract class MyShape implements IMyPhysical
     {
         return lines;
     }
-    public boolean intersects(MyShape other)
-    {
-        
-        return lines.parallelStream().anyMatch((MyLine line)->{return other.getLines().stream().anyMatch((MyLine otherLine)->{return line.isIntersecting(otherLine);});});
-    }
+    
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
     {

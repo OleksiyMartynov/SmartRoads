@@ -40,14 +40,6 @@ public class MyLine implements IMyPhysical
         //System.out.println(np.toString());
         return np;
     }
-    public MyPoint getPointOfIntersection(MyLine other)
-    {
-        return intersect(pOne.getX(), pOne.getY(), pTwo.getX(), pTwo.getY(), other.pOne.getX(), other.pOne.getY(), other.pTwo.getX(), other.pTwo.getX());
-    }
-    public boolean isIntersecting(MyLine other)
-    {
-        return getPointOfIntersection(other) != null;
-    }
         
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
