@@ -21,7 +21,7 @@ public class MyCollidableLine extends MyDrawableLine implements IMyCollidable
     public MyPoint isColliding(IMyCollidable other)
     {
         MyPoint p =MyMathHelper.intersect(this, other);
-        //if(p!=null){System.out.println("collision at"+p.toString());}
+        if(p!=null){System.out.println("collision at"+p.toString());}
         return p;
     }
 

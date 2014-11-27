@@ -28,7 +28,7 @@ public class MyDrawableWorld implements IMyDrawable
         MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 100, 50, 50, Color.BLACK);
         dr.setRotationVelocityDeg(1);
         //dr.rotateByDeg(dr.getCenter(), 90);
-        dr.setVelocity(new MyPoint(1f,1f));
+        //dr.setVelocity(new MyPoint(1f,1f));
         
         MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(50f, 50f), new MyDrawablePoint(100f, 150f));  
         dl.setColor(Color.BLACK);
@@ -38,9 +38,16 @@ public class MyDrawableWorld implements IMyDrawable
         dl.setRotationVelocityDeg(1.0f);
         //dl.setVelocity(new MyPoint(1f,1f));
         
+        MyCollidableLine dl2 = new MyCollidableLine(new MyDrawablePoint(100f, 50f),new MyDrawablePoint(150f, 150f));
+        dl2.setColor(Color.BLACK);
+        dl2.setPivotPoint(new MyDrawablePoint(100f, 50f));
+        System.out.println(dl2.getCenter().toString());
+        dl2.setRotationVelocityDeg(-1.0f);
+        
         MyCollidablePoint dp= new MyCollidablePoint(77, 77);
         dp.setColor(Color.BLACK);
-        drawables.add(dl);
+        //drawables.add(dl);
+        drawables.add(dl2);
         drawables.add(dr);
         drawables.add(dp);
     }
@@ -54,8 +61,12 @@ public class MyDrawableWorld implements IMyDrawable
     public void update(int delta)
     {
         drawables.parallelStream().forEach(d->{d.update(delta);});
-        //todo fix collision
-        drawables.parallelStream().forEach(d1->{drawables.parallelStream().forEach(d2->{d2.isColliding(d1);});});
+        drawables.parallelStream().forEach(d1->{drawables.parallelStream().forEach(d2->{
+            if(d2!=d1)
+            {
+                d2.isColliding(d1);
+            }
+        });});
     }
 
     @Override
