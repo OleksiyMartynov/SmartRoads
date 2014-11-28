@@ -48,6 +48,12 @@ public class MyDrawableWorld implements IMyDrawable
         dp.setColor(Color.BLACK);
         
         MyCar car = new MyCar(new MyPoint(50f, 50f));
+        //todo fix rotation of velocity
+        car.pressGasPedal();
+        car.turnRight();
+        
+        //car.setRotationVelocityDeg(-1.0f);
+        drawables.add(car);
         //drawables.add(dl);
         drawables.add(dl2);
         drawables.add(dr);

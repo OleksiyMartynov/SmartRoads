@@ -11,6 +11,7 @@ public abstract class MyShape implements IMyPhysical
 {
     private List<MyLine> lines;
     private MyPoint pivot;
+    private double rotationDeg=0;
     private MyShape(){}
     public MyShape(List<MyLine> lines)
     {
@@ -39,6 +40,7 @@ public abstract class MyShape implements IMyPhysical
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
     {
+        this.rotationDeg=angleDegrees;
         lines.parallelStream().forEach((line)->{line.rotateByDeg(pivotPoint, angleDegrees);});
     }
     @Override
@@ -49,9 +51,11 @@ public abstract class MyShape implements IMyPhysical
      @Override
     public double getRotationDeg()
     {
-        MyPoint sum = new MyPoint(0, 0);
+        /*MyPoint sum = new MyPoint(0, 0);
         lines.parallelStream().forEach((MyLine l)->{sum.translate(new MyPoint((float)l.getRotationDeg(), 1));});
-        return sum.getX()/sum.getY();
+        return sum.getX()/sum.getY();*/
+        return rotationDeg;
+                
     }
     @Override
     public void setPivotPoint(MyPoint p)
