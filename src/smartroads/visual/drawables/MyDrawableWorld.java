@@ -10,7 +10,7 @@ import smartroads.visual.drawables.collidables.IMyCollidable;
 import smartroads.visual.drawables.collidables.MyCollidableLine;
 import smartroads.visual.drawables.collidables.MyCollidablePoint;
 import smartroads.visual.drawables.collidables.MyCollidableRectangle;
-
+import smartroads.visual.drawables.objects.MyCar;
 /**
  *
  * @author Oleksiy
@@ -46,6 +46,8 @@ public class MyDrawableWorld implements IMyDrawable
         
         MyCollidablePoint dp= new MyCollidablePoint(77, 77);
         dp.setColor(Color.BLACK);
+        
+        MyCar car = new MyCar(new MyPoint(50,50));
         //drawables.add(dl);
         drawables.add(dl2);
         drawables.add(dr);
