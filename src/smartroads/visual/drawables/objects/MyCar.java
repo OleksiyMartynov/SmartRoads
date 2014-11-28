@@ -24,9 +24,6 @@ public class MyCar extends MyCollidableRectangle
         new MyDrawableLine(new MyDrawablePoint(startPoint.getX()+CAR_WIDTH, startPoint.getY()+CAR_HEIGHT), new MyDrawablePoint(startPoint.getX(), startPoint.getY()+CAR_HEIGHT)),
         new MyDrawableLine(new MyDrawablePoint(startPoint.getX(), startPoint.getY()+CAR_HEIGHT), new MyDrawablePoint(startPoint.getX(), startPoint.getY()))
         }), Color.BLUE);
-        
-        List<MyDrawableLine> drawableLines=new ArrayList<>();
-        
     }
     
 }

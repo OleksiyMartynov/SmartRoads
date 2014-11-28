@@ -47,7 +47,7 @@ public class MyDrawableWorld implements IMyDrawable
         MyCollidablePoint dp= new MyCollidablePoint(77, 77);
         dp.setColor(Color.BLACK);
         
-        MyCar car = new MyCar(new MyPoint(50,50));
+        MyCar car = new MyCar(new MyPoint(50f, 50f));
         //drawables.add(dl);
         drawables.add(dl2);
         drawables.add(dr);
