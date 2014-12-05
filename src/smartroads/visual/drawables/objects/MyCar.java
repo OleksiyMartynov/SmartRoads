@@ -16,7 +16,7 @@ public class MyCar extends MyCollidableRectangle
 {
     public final static float CAR_WIDTH = 10f;
     public final static float CAR_HEIGHT=20f;
-    private final static float CAR_TURN_MAX=0.2f;
+    private final static float CAR_TURN_MAX=0.5f;
     private final static float CAR_TURN_ACC_PERFRAME=10f;
     private final static float CAR_VEL_ACC_PERFRAME=1f;
     public MyCar(MyPoint startPoint)
@@ -31,16 +31,15 @@ public class MyCar extends MyCollidableRectangle
     }
     public void turnLeft()
     {
-        double rDeg = getRotationDeg();
-        double nRot=rDeg-CAR_TURN_ACC_PERFRAME;
-        rotateByDeg(nRot);
-        getVelocity().rotateByDeg(rDeg);
+        setRotationVelocityDeg(-CAR_TURN_MAX);
     }
     public void turnRight()
     {
-        double rDeg = getRotationDeg();
-        double nRot=rDeg+CAR_TURN_ACC_PERFRAME;
-        rotateByDeg(nRot);
+        setRotationVelocityDeg(CAR_TURN_MAX);
+    }
+    public void turnForward()
+    {
+        setRotationVelocityDeg(0);
     }
     public void pressGasPedal()
     {

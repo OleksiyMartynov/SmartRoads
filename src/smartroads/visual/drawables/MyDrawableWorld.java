@@ -47,10 +47,10 @@ public class MyDrawableWorld implements IMyDrawable
         MyCollidablePoint dp= new MyCollidablePoint(77, 77);
         dp.setColor(Color.BLACK);
         
-        MyCar car = new MyCar(new MyPoint(50f, 50f));
-        //todo fix rotation of velocity
+        MyCar car = new MyCar(new MyPoint(250f, 50f));
         car.pressGasPedal();
         car.turnRight();
+        
         
         //car.setRotationVelocityDeg(-1.0f);
         drawables.add(car);
