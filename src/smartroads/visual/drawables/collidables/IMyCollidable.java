@@ -1,5 +1,6 @@
 package smartroads.visual.drawables.collidables;
 
+import java.util.ArrayList;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.drawables.IMyDrawable;
 
@@ -9,6 +10,5 @@ import smartroads.visual.drawables.IMyDrawable;
  */
 public interface IMyCollidable extends IMyDrawable
 {
-    public MyPoint isColliding(IMyCollidable other);
-    public MyPoint willCollideAfterUpdate(IMyCollidable other);
+    public ArrayList<MyPoint> isColliding(IMyCollidable other);
 }

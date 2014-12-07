@@ -8,7 +8,6 @@ import smartroads.visual.drawables.MyDrawableLine;
 import smartroads.visual.drawables.MyDrawablePoint;
 import smartroads.visual.drawables.MyDrawableWorld;
 import smartroads.visual.drawables.collidables.IMyCollidable;
-import smartroads.visual.drawables.collidables.MyCollidablePoint;
 import smartroads.visual.drawables.collidables.MyCollidableRectangle;
 
 /**
@@ -21,7 +20,7 @@ public class MyCar extends MyCollidableRectangle
     public final static float CAR_HEIGHT=20f;
     private final static float CAR_TURN_MAX=0.5f;
     private final static float CAR_TURN_ACC_PERFRAME=10f;
-    private final static float CAR_VEL_ACC_PERFRAME=1f;
+    private final static float CAR_VEL_ACC_PERFRAME=2f;
     public MyCar(MyPoint startPoint)
     {        
         super(new ArrayList<MyDrawableLine>(Arrays.asList(new MyDrawableLine[]{
@@ -56,26 +55,21 @@ public class MyCar extends MyCollidableRectangle
     }
 
     @Override
-    public MyPoint isColliding(IMyCollidable other)
+    public ArrayList<MyPoint> isColliding(IMyCollidable other)
     {        
-        MyPoint outPoint = super.isColliding(other);
-        if(outPoint!=null)
+        ArrayList<MyPoint> outPoints = super.isColliding(other);
+        outPoints.forEach(p->{
+            if(p!=null)
         {
-            //float ch = (float)delta/1000f;
-            //the following reverses the previous update translations and rotations
-            //maybe move this to onUpdate method
-            //float newX = getVelocity().getX();
-            //float newY = getVelocity().getY();
-            //rotateByDeg(-getRotationVelocityDeg());
-            //translate(new MyPoint(-newX, -newY));
-            
-            //setVelocity(new MyPoint(0,0));
-            //setRotationVelocityDeg(0);
-            MyDrawablePoint dp = new MyDrawablePoint(outPoint.getX(), outPoint.getY());
+            MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
             dp.setColor(Color.BLACK);            
             MyDrawableWorld.getInstance().addDrawables(dp);
+            //todo do bounce on colision
+            setVelocity(new MyPoint(0, 0));
         }
-        return  outPoint;
+        });
+        
+        return  outPoints;
     }
     
     

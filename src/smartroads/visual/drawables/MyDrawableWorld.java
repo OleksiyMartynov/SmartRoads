@@ -50,40 +50,48 @@ public class MyDrawableWorld implements IMyDrawable
     }
     private void  init()
     {
-        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(120, 170, 50, 50, Color.BLACK);
-        dr.setRotationVelocityDeg(1.3f);
-        //dr.rotateByDeg(dr.getCenter(), 90);
+        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 150, 50, 50, Color.BLACK);
+        //dr.setRotationVelocityDeg(50.3f);
+        dr.rotateByDeg(dr.getCenter(), 45);
+        dr.setVelocity(new MyPoint(0, -1));
         //dr.setVelocity(new MyPoint(1f,1f));
         
         MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(120f, 90f), new MyDrawablePoint(200f, 200f));  
         dl.setColor(Color.BLACK);
         dl.setPivotPoint(dl.getCenter());
         System.out.println(dl.getCenter().toString());
+        //dl.rotateByDeg(-53.5f);
         //dl.rotateByDeg(dl.getCenter(), 20);
-        dl.setRotationVelocityDeg(4.0f);
-        //dl.setVelocity(new MyPoint(0f,-1f));
+        //dl.setRotationVelocityDeg(4.0f);
+        dl.setVelocity(new MyPoint(0f,1f));
         
         
         MyCollidableLine dl2 = new MyCollidableLine(new MyDrawablePoint(120f, 70f),new MyDrawablePoint(200f, 150f));
         dl2.setColor(Color.BLACK);
         dl2.setPivotPoint(dl2.getCenter());
-        System.out.println(dl2.getCenter().toString());
         //dl2.setVelocity(new MyPoint(0f,1f));
         dl2.setRotationVelocityDeg(-5.0f);
    
         
-        MyCar car = new MyCar(new MyPoint(150f, 0f));
+        MyCar car = new MyCar(new MyPoint(120f, 10f));
         car.pressGasPedal();
+        //car.turnLeft();
+        MyCar car2 = new MyCar(new MyPoint(140f,220f));
+        car2.pressBrakePedal();
+        car2.turnRight();
         //car.turnRight();
         
         MyCollidableLine dl3 = new MyCollidableLine(new MyDrawablePoint(120f, 130f), new MyDrawablePoint(200f, 250f));  
         dl3.setColor(Color.BLACK);
         dl3.setRotationVelocityDeg(-4.0f);
-        //colidables.add(car);
-        colidables.add(dl);
-        colidables.add(dl2);
-        colidables.add(dl3);
-        //colidables.add(dr);
+        
+        
+        colidables.add(car);
+        //colidables.add(car2);
+        //colidables.add(dl);
+        //colidables.add(dl2);
+        //colidables.add(dl3);
+        colidables.add(dr);
     }
     @Override
     public void draw(Graphics2D g)
