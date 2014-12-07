@@ -20,9 +20,16 @@ public class MyDrawablePoint extends MyPoint implements IMyDrawable
     
     @Override
     public void draw(Graphics2D g)
-    {
-        g.setColor(color);
-        g.drawLine((int)getX(),(int)getY(),(int)getX(),(int)getY());
+    {        
+        try
+        {
+            g.setColor(color);
+            g.drawLine((int)getX(),(int)getY(),(int)getX(),(int)getY());
+        }
+        catch(Exception e)
+        {
+            
+        }
     }
 
     @Override

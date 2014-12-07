@@ -6,6 +6,9 @@ import java.util.Arrays;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.drawables.MyDrawableLine;
 import smartroads.visual.drawables.MyDrawablePoint;
+import smartroads.visual.drawables.MyDrawableWorld;
+import smartroads.visual.drawables.collidables.IMyCollidable;
+import smartroads.visual.drawables.collidables.MyCollidablePoint;
 import smartroads.visual.drawables.collidables.MyCollidableRectangle;
 
 /**
@@ -50,6 +53,29 @@ public class MyCar extends MyCollidableRectangle
     {
         MyPoint nvel = new MyPoint(getVelocity().getX(),getVelocity().getY()-CAR_VEL_ACC_PERFRAME);
         setVelocity(nvel);
+    }
+
+    @Override
+    public MyPoint isColliding(IMyCollidable other)
+    {        
+        MyPoint outPoint = super.isColliding(other);
+        if(outPoint!=null)
+        {
+            //float ch = (float)delta/1000f;
+            //the following reverses the previous update translations and rotations
+            //maybe move this to onUpdate method
+            //float newX = getVelocity().getX();
+            //float newY = getVelocity().getY();
+            //rotateByDeg(-getRotationVelocityDeg());
+            //translate(new MyPoint(-newX, -newY));
+            
+            //setVelocity(new MyPoint(0,0));
+            //setRotationVelocityDeg(0);
+            MyDrawablePoint dp = new MyDrawablePoint(outPoint.getX(), outPoint.getY());
+            dp.setColor(Color.BLACK);            
+            MyDrawableWorld.getInstance().addDrawables(dp);
+        }
+        return  outPoint;
     }
     
     

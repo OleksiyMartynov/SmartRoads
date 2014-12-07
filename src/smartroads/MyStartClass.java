@@ -17,7 +17,7 @@ public class MyStartClass {
     public static void main(String[] args) 
     {   
         
-        MyDrawableWorld world = new MyDrawableWorld();
+        MyDrawableWorld world = MyDrawableWorld.getInstance();
         MyCanvasWindow cw= new MyCanvasWindow(300, 300, world);
         cw.startWindow();
     }

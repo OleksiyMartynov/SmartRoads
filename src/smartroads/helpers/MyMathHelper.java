@@ -37,7 +37,7 @@ public class MyMathHelper
     
     public static MyPoint intersect(MyLine cur,MyLine other)
     {
-        return intersect(cur.getpOne().getX(), cur.getpOne().getY(), cur.getpTwo().getX(), cur.getpTwo().getY(), other.getpOne().getX(), other.getpOne().getY(), other.getpTwo().getX(), other.getpTwo().getX());
+        return intersect(cur.getpOne().getX(), cur.getpOne().getY(), cur.getpTwo().getX(), cur.getpTwo().getY(), other.getpOne().getX(), other.getpOne().getY(), other.getpTwo().getX(), other.getpTwo().getY());
     }
     
     public static MyPoint intersect(IMyCollidable cur, IMyCollidable other)

@@ -21,6 +21,11 @@ public class MyLine implements IMyPhysical
         this.pOne = pOne;
         this.pTwo = pTwo;
         //pivot = getCenter();
+        float xS= (pTwo.getX()-pOne.getX())/2.0f+pOne.getX();
+        float yS=(pTwo.getY()-pOne.getY())/2.0f+pOne.getY();
+        pivot =new MyPoint(xS, yS);
+        this.pOne.setPivotPoint(pivot);
+        this.pTwo.setPivotPoint(pivot);
     }
     public MyPoint getpOne()
     {

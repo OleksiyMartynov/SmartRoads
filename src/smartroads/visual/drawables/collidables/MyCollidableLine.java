@@ -1,9 +1,11 @@
 package smartroads.visual.drawables.collidables;
 
+import java.awt.Color;
 import smartroads.helpers.MyMathHelper;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.drawables.MyDrawableLine;
 import smartroads.visual.drawables.MyDrawablePoint;
+import smartroads.visual.drawables.MyDrawableWorld;
 
 /**
  *
@@ -21,7 +23,12 @@ public class MyCollidableLine extends MyDrawableLine implements IMyCollidable
     public MyPoint isColliding(IMyCollidable other)
     {
         MyPoint p =MyMathHelper.intersect(this, other);
-        if(p!=null){System.out.println("collision at"+p.toString());}
+        if(p!=null)
+        {
+            MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
+            dp.setColor(Color.BLACK);            
+            MyDrawableWorld.getInstance().addDrawables(dp);
+        }
         return p;
     }
 

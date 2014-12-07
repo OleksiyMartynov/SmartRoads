@@ -92,7 +92,7 @@ public class MyPoint implements IMyPhysical
         if(pivot==null)
         {
             pivot=new MyPoint(x,y);
-            System.out.println("null pivot");
+            //System.out.println("null pivot");
         }
         rotateByDeg(pivot, angleDegrees);
     }

@@ -1,13 +1,8 @@
 package smartroads.visual.drawables;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
-import smartroads.primitives.MyLine;
-import smartroads.primitives.MyPoint;
-import smartroads.primitives.MyRectangle;
-
 /**
  *
  * @author Oleksiy

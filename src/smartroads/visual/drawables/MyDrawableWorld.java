@@ -8,7 +8,6 @@ import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.drawables.collidables.IMyCollidable;
 import smartroads.visual.drawables.collidables.MyCollidableLine;
-import smartroads.visual.drawables.collidables.MyCollidablePoint;
 import smartroads.visual.drawables.collidables.MyCollidableRectangle;
 import smartroads.visual.drawables.objects.MyCar;
 /**
@@ -17,59 +16,93 @@ import smartroads.visual.drawables.objects.MyCar;
  */
 public class MyDrawableWorld implements IMyDrawable
 {
-    private List<IMyCollidable> drawables = new ArrayList<>();
-
-    public MyDrawableWorld()
+    private List<IMyCollidable> colidables = new ArrayList<>();
+    private List<IMyCollidable> colidablesQueue = new ArrayList<>();
+    private List<IMyDrawable> drawables = new ArrayList<>();
+    private List<IMyDrawable>drawablesQueue=new ArrayList<>();
+    private static MyDrawableWorld instance;
+    public static MyDrawableWorld getInstance()
     {
-        init();
+        if(instance==null)
+        {
+            instance =new MyDrawableWorld();
+            return instance;
+        }
+        return instance;
+    }
+    private MyDrawableWorld()
+    {
+        init();        
+    }
+    public void addCollidable(IMyCollidable c)
+    {
+        if(c!=null)
+        {
+            colidablesQueue.add(c);
+        }
+    }
+    public void addDrawables(IMyDrawable d)
+    {
+        if(d!=null)
+        {
+            drawablesQueue.add(d);
+        }
     }
     private void  init()
     {
-        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 100, 50, 50, Color.BLACK);
-        dr.setRotationVelocityDeg(1);
+        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(120, 170, 50, 50, Color.BLACK);
+        dr.setRotationVelocityDeg(1.3f);
         //dr.rotateByDeg(dr.getCenter(), 90);
         //dr.setVelocity(new MyPoint(1f,1f));
         
-        MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(50f, 50f), new MyDrawablePoint(100f, 150f));  
+        MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(120f, 90f), new MyDrawablePoint(200f, 200f));  
         dl.setColor(Color.BLACK);
         dl.setPivotPoint(dl.getCenter());
         System.out.println(dl.getCenter().toString());
         //dl.rotateByDeg(dl.getCenter(), 20);
-        dl.setRotationVelocityDeg(1.0f);
-        //dl.setVelocity(new MyPoint(1f,1f));
+        dl.setRotationVelocityDeg(4.0f);
+        //dl.setVelocity(new MyPoint(0f,-1f));
         
-        MyCollidableLine dl2 = new MyCollidableLine(new MyDrawablePoint(100f, 50f),new MyDrawablePoint(150f, 150f));
+        
+        MyCollidableLine dl2 = new MyCollidableLine(new MyDrawablePoint(120f, 70f),new MyDrawablePoint(200f, 150f));
         dl2.setColor(Color.BLACK);
-        dl2.setPivotPoint(new MyDrawablePoint(100f, 50f));
+        dl2.setPivotPoint(dl2.getCenter());
         System.out.println(dl2.getCenter().toString());
-        dl2.setRotationVelocityDeg(-1.0f);
+        //dl2.setVelocity(new MyPoint(0f,1f));
+        dl2.setRotationVelocityDeg(-5.0f);
+   
         
-        MyCollidablePoint dp= new MyCollidablePoint(77, 77);
-        dp.setColor(Color.BLACK);
-        
-        MyCar car = new MyCar(new MyPoint(250f, 50f));
+        MyCar car = new MyCar(new MyPoint(150f, 0f));
         car.pressGasPedal();
-        car.turnRight();
+        //car.turnRight();
         
-        
-        //car.setRotationVelocityDeg(-1.0f);
-        drawables.add(car);
-        //drawables.add(dl);
-        drawables.add(dl2);
-        drawables.add(dr);
-        drawables.add(dp);
+        MyCollidableLine dl3 = new MyCollidableLine(new MyDrawablePoint(120f, 130f), new MyDrawablePoint(200f, 250f));  
+        dl3.setColor(Color.BLACK);
+        dl3.setRotationVelocityDeg(-4.0f);
+        //colidables.add(car);
+        colidables.add(dl);
+        colidables.add(dl2);
+        colidables.add(dl3);
+        //colidables.add(dr);
     }
     @Override
     public void draw(Graphics2D g)
     {
-        drawables.parallelStream().forEach(d->{d.draw(g);});
+        colidables.forEach(d->{d.draw(g);});
+        drawables.forEach(d->{d.draw(g);});
     }
 
     @Override
     public void update(int delta)
     {
-        drawables.parallelStream().forEach(d->{d.update(delta);});
-        drawables.parallelStream().forEach(d1->{drawables.parallelStream().forEach(d2->{
+        colidables.addAll(colidablesQueue);
+        colidablesQueue.clear();
+        
+        drawables.addAll(drawablesQueue);
+        drawablesQueue.clear();
+        
+        colidables.forEach(d->{d.update(delta);});
+        colidables.parallelStream().forEach(d1->{colidables.parallelStream().forEach(d2->{
             if(d2!=d1)
             {
                 d2.isColliding(d1);
