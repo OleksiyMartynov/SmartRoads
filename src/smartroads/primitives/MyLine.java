@@ -36,6 +36,10 @@ public class MyLine implements IMyPhysical
     {
         return pTwo;
     }
+    public double getLength()
+    {
+        return this.pOne.subtract(this.pTwo).magnitude();
+    }
     @Override
     public MyPoint getCenter()
     {
@@ -89,5 +93,15 @@ public class MyLine implements IMyPhysical
         ArrayList<MyLine> list = new ArrayList<>();
         list.add(this);
         return list;
+    }
+    @Override
+    public float getWeight()
+    {
+        float perimiter =0;
+        for(MyLine l : getLines())
+        {
+            perimiter+=l.getLength();
+        }
+        return perimiter;
     }
 }

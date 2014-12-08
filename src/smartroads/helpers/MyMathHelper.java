@@ -11,6 +11,7 @@ import smartroads.visual.drawables.collidables.IMyCollidable;
  */
 public class MyMathHelper
 {
+    //finds intersect of two lines given the coordinates
     public static MyPoint intersect(float lOnePOneX, float lOnePOneY, float lOnePTwoX, float lOnePTwoY,  float lTwoPOneX, float lTwoPOneY, float lTwoPTwoX, float lTwoPTwoY)
     {
         float outPX,outPY;
@@ -45,5 +46,15 @@ public class MyMathHelper
         ArrayList<MyPoint> list = new ArrayList<>();
         cur.getLines().forEach(l1->{other.getLines().forEach(l2->{list.add(MyMathHelper.intersect(l1, l2));});});
         return list;
+    }
+    //rotaits point around the origin by given degrees
+    public static double[] rotateByDegree(double pivotX, double pivotY, double pointX,double pointY, double angleDegrees)
+    {
+        double angleInRadians = angleDegrees *(Math.PI/180);
+        double cosTheta = Math.cos(angleInRadians);
+        double sinTheta =Math.sin(angleInRadians);
+        double newX=(cosTheta*(pointX-pivotX)-sinTheta*(pointY-pivotY)+pivotX);
+        double newY=(sinTheta*(pointX-pivotX)+cosTheta*(pointY-pivotY)+pivotY);
+        return new double[]{newX,newY};
     }
 }

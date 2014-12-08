@@ -16,4 +16,5 @@ public interface IMyPhysical
     public void setPivotPoint(MyPoint p);
     public void rotateByDeg(double angleDegrees);
     public List<MyLine> getLines();
+    public float getWeight();
 }

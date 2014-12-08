@@ -51,9 +51,10 @@ public class MyDrawableWorld implements IMyDrawable
     private void  init()
     {
         MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 150, 50, 50, Color.BLACK);
-        //dr.setRotationVelocityDeg(50.3f);
-        dr.rotateByDeg(dr.getCenter(), 45);
+        //dr.setRotationVelocityDeg(5.3f);
+        
         dr.setVelocity(new MyPoint(0, -1));
+        dr.rotateByDeg(dr.getCenter(), 45);
         //dr.setVelocity(new MyPoint(1f,1f));
         
         MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(120f, 90f), new MyDrawablePoint(200f, 200f));  
@@ -73,9 +74,9 @@ public class MyDrawableWorld implements IMyDrawable
         dl2.setRotationVelocityDeg(-5.0f);
    
         
-        MyCar car = new MyCar(new MyPoint(120f, 10f));
+        MyCar car = new MyCar(new MyPoint(150f, 10f));
         car.pressGasPedal();
-        //car.turnLeft();
+        car.turnRight();
         MyCar car2 = new MyCar(new MyPoint(140f,220f));
         car2.pressBrakePedal();
         car2.turnRight();
@@ -96,8 +97,8 @@ public class MyDrawableWorld implements IMyDrawable
     @Override
     public void draw(Graphics2D g)
     {
-        colidables.forEach(d->{d.draw(g);});
-        drawables.forEach(d->{d.draw(g);});
+        colidables.forEach(d->{if(d!=null){d.draw(g);}});
+        drawables.forEach(d->{if(d!=null){d.draw(g);}});
     }
 
     @Override
@@ -192,6 +193,12 @@ public class MyDrawableWorld implements IMyDrawable
 
     @Override
     public List<MyLine> getLines()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public float getWeight()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -2,6 +2,7 @@ package smartroads.primitives;
 
 import java.util.ArrayList;
 import java.util.List;
+import smartroads.helpers.MyMathHelper;
 
 /**
  *
@@ -60,18 +61,15 @@ public class MyPoint implements IMyPhysical
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
     {
-        double angleInRadians = angleDegrees *(Math.PI/180);
+        /*double angleInRadians = angleDegrees *(Math.PI/180);
         double cosTheta = Math.cos(angleInRadians);
         double sinTheta =Math.sin(angleInRadians);
         double newX=(cosTheta*(x-pivotPoint.getX())-sinTheta*(y-pivotPoint.getY())+pivotPoint.getX());
-        double newY=(sinTheta*(x-pivotPoint.getX())+cosTheta*(y-pivotPoint.getY())+pivotPoint.getY());
-        x= (float)newX;
-        y=(float)newY;
+        double newY=(sinTheta*(x-pivotPoint.getX())+cosTheta*(y-pivotPoint.getY())+pivotPoint.getY());*/
+        double[] newPoints=MyMathHelper.rotateByDegree(pivotPoint.getX(), pivotPoint.getY(), x, y, angleDegrees);
+        x= (float)newPoints[0];
+        y=(float)newPoints[1];
         rotation+=angleDegrees;
-        //System.out.println("x"+x+" y"+y);
-        //System.out.println(pivotPoint.toString());
-        //System.out.println("r"+rotation);
-        //System.out.println("angle"+angleDegrees);
     }
 
     @Override
@@ -109,6 +107,39 @@ public class MyPoint implements IMyPhysical
         ArrayList<MyLine> list = new ArrayList<>();
         list.add(new MyLine(this.getCenter(), this.getCenter()));
         return list;
+    }
+    @Override
+    public float getWeight()
+    {
+        return 1;
+    }
+    public MyPoint add(MyPoint p)
+    {
+        return new MyPoint(this.x+p.getX(), this.y+p.getY());
+    }
+    public MyPoint subtract(MyPoint p)
+    {
+        return new MyPoint(this.x-p.getX(), this.y-p.getY());
+    }
+    public MyPoint multiply(MyPoint p)
+    {
+        return new MyPoint(this.x*p.getX(), this.y*p.getY());
+    }
+    public MyPoint divide(MyPoint p)
+    {
+        return new MyPoint(this.x/p.getX(), this.y/p.getY());
+    }
+    public double dot(MyPoint p)
+    {
+        return x*p.getX()+y*p.getY();
+    }
+    public double magnitude()//aka length aka hypotenuse
+    {
+        return Math.sqrt((x*x)+(y*y));
+    }
+    public MyPoint normal()
+    {
+        return new MyPoint((float)(x/magnitude()), (float)(y/magnitude()));
     }
     
 }

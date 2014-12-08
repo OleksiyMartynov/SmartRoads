@@ -8,13 +8,13 @@ import smartroads.visual.drawables.MyDrawableLine;
 import smartroads.visual.drawables.MyDrawablePoint;
 import smartroads.visual.drawables.MyDrawableWorld;
 import smartroads.visual.drawables.collidables.IMyCollidable;
-import smartroads.visual.drawables.collidables.MyCollidableRectangle;
+import smartroads.visual.drawables.collidables.MyBouncyRectangle;
 
 /**
  *
  * @author Oleksiy
  */
-public class MyCar extends MyCollidableRectangle
+public class MyCar extends MyBouncyRectangle
 {
     public final static float CAR_WIDTH = 10f;
     public final static float CAR_HEIGHT=20f;
@@ -62,10 +62,10 @@ public class MyCar extends MyCollidableRectangle
             if(p!=null)
         {
             MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
-            dp.setColor(Color.BLACK);            
+            dp.setColor(Color.RED);            
             MyDrawableWorld.getInstance().addDrawables(dp);
-            //todo do bounce on colision
-            setVelocity(new MyPoint(0, 0));
+            System.out.println("hit");
+            //setVelocity(new MyPoint(0, 0));
         }
         });
         

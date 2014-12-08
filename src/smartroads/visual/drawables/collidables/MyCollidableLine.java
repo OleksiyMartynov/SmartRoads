@@ -3,6 +3,7 @@ package smartroads.visual.drawables.collidables;
 import java.awt.Color;
 import java.util.ArrayList;
 import smartroads.helpers.MyMathHelper;
+import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.drawables.MyDrawableLine;
 import smartroads.visual.drawables.MyDrawablePoint;
@@ -28,7 +29,7 @@ public class MyCollidableLine extends MyDrawableLine implements IMyCollidable
             if(p!=null)
         {
             MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
-            dp.setColor(Color.BLACK);            
+            dp.setColor(Color.RED);            
             MyDrawableWorld.getInstance().addDrawables(dp);
         }
         });
@@ -36,6 +37,10 @@ public class MyCollidableLine extends MyDrawableLine implements IMyCollidable
         
         return cps;
     }
+
+    
+
+    
 
     
     

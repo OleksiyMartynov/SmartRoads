@@ -84,6 +84,14 @@ public class MyDrawableShape extends MyShape implements IMyDrawable
         return sum.getX()/sum.getY();
     }
 
+    @Override
+    public float getWeight()
+    {
+        double perimiter =0;
+        perimiter = getLines().stream().map((l) -> l.getLength()).reduce(perimiter, (accumulator, _item) -> accumulator + _item);
+        return (float)perimiter;
+    }
+
 
     
 }

@@ -31,7 +31,16 @@ public class MyRectangle extends MyShape
         lines.add(new MyLine(new MyPoint(x, y+height), new MyPoint(x, y)));
         return new MyRectangle(lines);
     }
-
+    @Override
+    public float getWeight()
+    {
+        float perimiter =0;
+        for(MyLine l : getLines())
+        {
+            perimiter+=l.getLength();
+        }
+        return perimiter;
+    }
    
 
 

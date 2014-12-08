@@ -30,13 +30,17 @@ public class MyCollidableShape extends MyDrawableShape implements IMyCollidable
             if(p!=null)
         {
             MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
-            dp.setColor(Color.BLACK);            
+            dp.setColor(Color.RED);            
             MyDrawableWorld.getInstance().addDrawables(dp);
         }
         });      
         
         return cps;
     }
+
+    
+
+    
 
     
     
