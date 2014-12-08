@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import smartroads.primitives.MyPoint;
-import smartroads.visual.drawables.MyDrawableLine;
-import smartroads.visual.drawables.MyDrawablePoint;
-import smartroads.visual.drawables.MyDrawableWorld;
+import smartroads.visual.drawables.base.MyDrawableLine;
+import smartroads.visual.drawables.base.MyDrawablePoint;
+import smartroads.visual.drawables.base.MyDrawableWorld;
 import smartroads.visual.drawables.collidables.IMyCollidable;
-import smartroads.visual.drawables.collidables.MyBouncyRectangle;
+import smartroads.visual.drawables.bouncables.MyBouncyRectangle;
 
 /**
  *
@@ -21,6 +21,8 @@ public class MyCar extends MyBouncyRectangle
     private final static float CAR_TURN_MAX=0.5f;
     private final static float CAR_TURN_ACC_PERFRAME=10f;
     private final static float CAR_VEL_ACC_PERFRAME=2f;
+    private final static float CAR_DECELERATION_RATE=1f;    
+    
     public MyCar(MyPoint startPoint)
     {        
         super(new ArrayList<MyDrawableLine>(Arrays.asList(new MyDrawableLine[]{
@@ -59,17 +61,21 @@ public class MyCar extends MyBouncyRectangle
     {        
         ArrayList<MyPoint> outPoints = super.isColliding(other);
         outPoints.forEach(p->{
-            if(p!=null)
-        {
+            
             MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
             dp.setColor(Color.RED);            
             MyDrawableWorld.getInstance().addDrawables(dp);
             System.out.println("hit");
             //setVelocity(new MyPoint(0, 0));
-        }
-        });
         
+        });        
         return  outPoints;
+    }
+
+    @Override
+    public void update(int delta)
+    {
+        super.update(delta);
     }
     
     

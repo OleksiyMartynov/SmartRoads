@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import smartroads.helpers.MyMathHelper;
 import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
-import smartroads.visual.drawables.MyDrawablePoint;
-import smartroads.visual.drawables.MyDrawableWorld;
+import smartroads.visual.drawables.base.MyDrawablePoint;
+import smartroads.visual.drawables.base.MyDrawableWorld;
 
 /**
  *

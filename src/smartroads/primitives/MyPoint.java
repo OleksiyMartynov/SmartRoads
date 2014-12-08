@@ -125,6 +125,10 @@ public class MyPoint implements IMyPhysical
     {
         return new MyPoint(this.x*p.getX(), this.y*p.getY());
     }
+    public MyPoint scale(float d)
+    {
+        return new MyPoint(this.x*d, this.y*d);
+    }
     public MyPoint divide(MyPoint p)
     {
         return new MyPoint(this.x/p.getX(), this.y/p.getY());

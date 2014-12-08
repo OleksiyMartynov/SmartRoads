@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import smartroads.visual.drawables.IMyDrawable;
+import smartroads.visual.drawables.base.IMyDrawable;
 
 /**
  *

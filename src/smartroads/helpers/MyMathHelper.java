@@ -1,6 +1,7 @@
 package smartroads.helpers;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.drawables.collidables.IMyCollidable;
@@ -43,9 +44,9 @@ public class MyMathHelper
     
     public static ArrayList<MyPoint> intersect(IMyCollidable cur, IMyCollidable other)
     {
-        ArrayList<MyPoint> list = new ArrayList<>();
+        final ArrayList<MyPoint> list = new ArrayList<>();
         cur.getLines().forEach(l1->{other.getLines().forEach(l2->{list.add(MyMathHelper.intersect(l1, l2));});});
-        return list;
+        return list.stream().filter(l->l!=null).collect(Collectors.toCollection(ArrayList::new));
     }
     //rotaits point around the origin by given degrees
     public static double[] rotateByDegree(double pivotX, double pivotY, double pointX,double pointY, double angleDegrees)

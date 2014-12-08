@@ -1,4 +1,4 @@
-package smartroads.visual.drawables;
+package smartroads.visual.drawables.base;
 
 import java.awt.Color;
 import java.util.ArrayList;

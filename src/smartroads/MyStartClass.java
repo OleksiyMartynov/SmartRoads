@@ -2,7 +2,7 @@ package smartroads;
 
 
 import smartroads.visual.display.MyCanvasWindow;
-import smartroads.visual.drawables.MyDrawableWorld;
+import smartroads.visual.drawables.base.MyDrawableWorld;
 
 
 /**

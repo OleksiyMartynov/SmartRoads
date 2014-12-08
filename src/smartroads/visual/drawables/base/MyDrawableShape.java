@@ -1,4 +1,4 @@
-package smartroads.visual.drawables;
+package smartroads.visual.drawables.base;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -6,6 +6,7 @@ import java.util.List;
 import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
 import smartroads.primitives.MyShape;
+import smartroads.visual.drawables.MyColor;
 
 /**
  *

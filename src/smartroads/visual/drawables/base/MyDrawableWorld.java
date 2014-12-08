@@ -1,4 +1,4 @@
-package smartroads.visual.drawables;
+package smartroads.visual.drawables.base;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -53,18 +53,18 @@ public class MyDrawableWorld implements IMyDrawable
         MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 150, 50, 50, Color.BLACK);
         //dr.setRotationVelocityDeg(5.3f);
         
-        dr.setVelocity(new MyPoint(0, -1));
+        //dr.setVelocity(new MyPoint(0, -1));
         dr.rotateByDeg(dr.getCenter(), 45);
         //dr.setVelocity(new MyPoint(1f,1f));
         
-        MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(120f, 90f), new MyDrawablePoint(200f, 200f));  
+        MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(10f, 90f), new MyDrawablePoint(200f, 200f));  
         dl.setColor(Color.BLACK);
         dl.setPivotPoint(dl.getCenter());
         System.out.println(dl.getCenter().toString());
         //dl.rotateByDeg(-53.5f);
         //dl.rotateByDeg(dl.getCenter(), 20);
         //dl.setRotationVelocityDeg(4.0f);
-        dl.setVelocity(new MyPoint(0f,1f));
+        //dl.setVelocity(new MyPoint(0f,-2f));
         
         
         MyCollidableLine dl2 = new MyCollidableLine(new MyDrawablePoint(120f, 70f),new MyDrawablePoint(200f, 150f));
@@ -74,12 +74,12 @@ public class MyDrawableWorld implements IMyDrawable
         dl2.setRotationVelocityDeg(-5.0f);
    
         
-        MyCar car = new MyCar(new MyPoint(150f, 10f));
+        MyCar car = new MyCar(new MyPoint(124f, 10f));
         car.pressGasPedal();
-        car.turnRight();
-        MyCar car2 = new MyCar(new MyPoint(140f,220f));
+        //car.turnRight();
+        MyCar car2 = new MyCar(new MyPoint(150f,220f));
         car2.pressBrakePedal();
-        car2.turnRight();
+        //car2.turnLeft();
         //car.turnRight();
         
         MyCollidableLine dl3 = new MyCollidableLine(new MyDrawablePoint(120f, 130f), new MyDrawablePoint(200f, 250f));  
@@ -88,7 +88,7 @@ public class MyDrawableWorld implements IMyDrawable
         
         
         colidables.add(car);
-        //colidables.add(car2);
+        colidables.add(car2);
         //colidables.add(dl);
         //colidables.add(dl2);
         //colidables.add(dl3);

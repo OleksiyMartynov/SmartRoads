@@ -1,4 +1,4 @@
-package smartroads.visual.drawables;
+package smartroads.visual.drawables.base;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
