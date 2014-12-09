@@ -2,6 +2,8 @@ package smartroads.visual.drawables.collidables;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import smartroads.helpers.MyMathHelper;
 import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
@@ -35,6 +37,26 @@ public class MyCollidablePoint extends MyDrawablePoint implements IMyCollidable
         
         
         return cps;
+    }
+
+    @Override
+    public ArrayList<MyPoint> willCollide(IMyCollidable other)
+    {
+        List<MyLine> nextFrameVectorLines = new ArrayList<>();
+        getLines().forEach(l->{
+            nextFrameVectorLines.add(new MyLine(l.getpOne(), this.getVelocity()));
+            nextFrameVectorLines.add(new MyLine(l.getpTwo(), this.getVelocity()));
+        });
+         ArrayList<MyPoint> cps=MyMathHelper.intersect(other.getNextFrameLines(), nextFrameVectorLines);
+        return cps;
+    }
+
+    @Override
+    public List<MyLine> getNextFrameLines()
+    {
+        List<MyLine> rl= getLines().stream().map(l->{return new MyLine(l.getpOne().copy(), l.getpTwo().copy());}).collect(Collectors.toList());
+        rl.forEach(l->{l.rotateByDeg(getRotationVelocityDeg());l.translate(new MyPoint(getVelocity().getX(), getVelocity().getY()));});
+        return rl;
     }
 
     

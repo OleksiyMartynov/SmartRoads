@@ -44,8 +44,10 @@ public class MyDrawableLine extends MyLine implements IMyDrawable
     {
         if(pDrOne.getVelocity()!=pDrTwo.getVelocity())
         {
-            System.out.println("Point velocities of line dont match! Check logic! Will return avg vel");
+            //todo make the line rotate around the pivot if the velocities are different
+            //System.out.println("Point velocities of line dont match! Check logic! Will return avg vel");
             return new MyPoint((pDrOne.getVelocity().getX()+pDrTwo.getVelocity().getX())/2f, (pDrOne.getVelocity().getY()+pDrTwo.getVelocity().getY())/2f);
+            //return pDrOne.getVelocity();
         }
         return pDrOne.getVelocity();
     }

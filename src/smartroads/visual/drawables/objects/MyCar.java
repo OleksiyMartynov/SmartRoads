@@ -60,14 +60,17 @@ public class MyCar extends MyBouncyRectangle
     public ArrayList<MyPoint> isColliding(IMyCollidable other)
     {        
         ArrayList<MyPoint> outPoints = super.isColliding(other);
-        outPoints.forEach(p->{
-            
+        if(outPoints.size()>0)
+        {
+            setRotationVelocityDeg(0);
+        }
+        outPoints.forEach(p->{            
             MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
             dp.setColor(Color.RED);            
             MyDrawableWorld.getInstance().addDrawables(dp);
             System.out.println("hit");
             //setVelocity(new MyPoint(0, 0));
-        
+            
         });        
         return  outPoints;
     }
@@ -76,6 +79,8 @@ public class MyCar extends MyBouncyRectangle
     public void update(int delta)
     {
         super.update(delta);
+        //System.err.println("rv"+getRotationVelocityDeg());
+        //System.err.println("r"+getRotationDeg());
     }
     
     

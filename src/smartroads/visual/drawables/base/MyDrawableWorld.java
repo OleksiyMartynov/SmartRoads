@@ -48,14 +48,32 @@ public class MyDrawableWorld implements IMyDrawable
             drawablesQueue.add(d);
         }
     }
+    private void drawWalls()
+    {
+        MyCollidableRectangle tw=MyCollidableRectangle.initCollidableRect(0, 0, 280, 10, Color.BLACK);
+        tw.rotateByDeg(1);
+        MyCollidableRectangle bw=MyCollidableRectangle.initCollidableRect(0, 250, 280, 10, Color.BLACK);
+        bw.rotateByDeg(1);
+        MyCollidableRectangle lw=MyCollidableRectangle.initCollidableRect(0, 10, 10, 240, Color.BLACK);
+        lw.rotateByDeg(1);
+        MyCollidableRectangle rw=MyCollidableRectangle.initCollidableRect(270, 10, 10, 240, Color.BLACK);
+        rw.rotateByDeg(1);
+        colidables.add(tw);
+        colidables.add(bw);
+        colidables.add(lw);
+        colidables.add(rw);
+    }
+    public void spawnCar(MyPoint p)
+    {
+         MyCar car = new MyCar(p);
+        car.pressGasPedal();
+        colidablesQueue.add(car);
+    }
     private void  init()
     {
-        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 150, 50, 50, Color.BLACK);
-        //dr.setRotationVelocityDeg(5.3f);
+        drawWalls();
         
-        //dr.setVelocity(new MyPoint(0, -1));
-        dr.rotateByDeg(dr.getCenter(), 45);
-        //dr.setVelocity(new MyPoint(1f,1f));
+        
         
         MyCollidableLine dl = new MyCollidableLine(new MyDrawablePoint(10f, 90f), new MyDrawablePoint(200f, 200f));  
         dl.setColor(Color.BLACK);
@@ -72,19 +90,27 @@ public class MyDrawableWorld implements IMyDrawable
         dl2.setPivotPoint(dl2.getCenter());
         //dl2.setVelocity(new MyPoint(0f,1f));
         dl2.setRotationVelocityDeg(-5.0f);
-   
-        
-        MyCar car = new MyCar(new MyPoint(124f, 10f));
-        car.pressGasPedal();
-        //car.turnRight();
-        MyCar car2 = new MyCar(new MyPoint(150f,220f));
-        car2.pressBrakePedal();
-        //car2.turnLeft();
-        //car.turnRight();
         
         MyCollidableLine dl3 = new MyCollidableLine(new MyDrawablePoint(120f, 130f), new MyDrawablePoint(200f, 250f));  
         dl3.setColor(Color.BLACK);
         dl3.setRotationVelocityDeg(-4.0f);
+        
+        
+        MyCollidableRectangle dr=MyCollidableRectangle.initCollidableRect(100, 130, 50, 50, Color.BLACK);
+        //dr.setRotationVelocityDeg(3.3f);        
+        //dr.setVelocity(new MyPoint(0, -1));
+        dr.rotateByDeg(dr.getCenter(), 45);
+        //dr.setVelocity(new MyPoint(2f,-2f));
+        
+        MyCar car = new MyCar(new MyPoint(124f, 10f));
+        car.pressGasPedal();
+        car.turnRight();
+        MyCar car2 = new MyCar(new MyPoint(124f,220f));
+        car2.pressBrakePedal();
+        car2.turnLeft();
+        //car.turnRight();
+        
+        
         
         
         colidables.add(car);
@@ -98,7 +124,14 @@ public class MyDrawableWorld implements IMyDrawable
     public void draw(Graphics2D g)
     {
         colidables.forEach(d->{if(d!=null){d.draw(g);}});
-        drawables.forEach(d->{if(d!=null){d.draw(g);}});
+        try
+        {
+            drawables.forEach(d->{if(d!=null){d.draw(g);}});        
+        }
+        catch(Exception e)
+        {
+            
+        }
     }
 
     @Override
@@ -111,10 +144,16 @@ public class MyDrawableWorld implements IMyDrawable
         drawablesQueue.clear();
         
         colidables.forEach(d->{d.update(delta);});
-        colidables.parallelStream().forEach(d1->{colidables.parallelStream().forEach(d2->{
+        colidables.stream().forEach(d1->{colidables.stream().forEach(d2->{
             if(d2!=d1)
             {
-                d2.isColliding(d1);
+                //d2.isColliding(d1);
+            }
+        });});
+        colidables.stream().forEach(d1->{colidables.stream().forEach(d2->{
+            if(d2!=d1)
+            {
+                d2.willCollide(d1);
             }
         });});
     }

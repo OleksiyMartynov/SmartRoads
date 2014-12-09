@@ -3,6 +3,7 @@ package smartroads.visual.display;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -20,6 +21,8 @@ public class MyCanvasWindow extends Component
     IMyDrawable mainDrawable;
     boolean drawing =false;
     int miliPerFrame ;
+    MouseListener mouseListener;
+    JFrame frame;
     public MyCanvasWindow(int windowWidth, int windowHeight, IMyDrawable drawable) 
     {
         this.windowWidth = windowWidth;
@@ -29,17 +32,35 @@ public class MyCanvasWindow extends Component
         //startWindow();        
         
     }
+    public MouseListener getMouseListener()
+    {
+        return mouseListener;
+    }
+
+    public void setMouseListener(MouseListener mouseListener)
+    {
+        this.mouseListener = mouseListener;
+        if(frame!=null)
+        {
+            frame.addMouseListener(mouseListener);
+        }
+    }
+    
     public void setFPS(int frames)
     {
         miliPerFrame=1000/frames;
     }
     public void startWindow()
     {
-        JFrame frame= new JFrame();
+        frame= new JFrame();
         frame.setSize(windowWidth, windowHeight);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.getContentPane().add(this);  
+        if(mouseListener!=null)
+        {
+            frame.addMouseListener(mouseListener);
+        }
         startUpdates();
     }
     @Override

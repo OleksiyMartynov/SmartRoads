@@ -1,6 +1,7 @@
 package smartroads.helpers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import smartroads.primitives.MyLine;
 import smartroads.primitives.MyPoint;
@@ -46,6 +47,12 @@ public class MyMathHelper
     {
         final ArrayList<MyPoint> list = new ArrayList<>();
         cur.getLines().forEach(l1->{other.getLines().forEach(l2->{list.add(MyMathHelper.intersect(l1, l2));});});
+        return list.stream().filter(l->l!=null).collect(Collectors.toCollection(ArrayList::new));
+    }
+    public static  ArrayList<MyPoint> intersect(List<MyLine> l1, List<MyLine> l2)
+    {
+        final ArrayList<MyPoint> list = new ArrayList<>();
+        l1.forEach(lineOne->{l2.forEach(lineTwo->{list.add(MyMathHelper.intersect(lineOne, lineTwo));});});
         return list.stream().filter(l->l!=null).collect(Collectors.toCollection(ArrayList::new));
     }
     //rotaits point around the origin by given degrees

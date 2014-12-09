@@ -24,20 +24,21 @@ public class MyDrawableShape extends MyShape implements IMyDrawable
     {
         super((List<MyLine>)(List<?>)drawableLines);
         this.drawableLines = drawableLines;
-        this.drawableLines.parallelStream().forEach(l->{l.setColor(c);});
+        this.drawableLines.stream().forEach(l->{l.setColor(c);});
     }
     
     @Override
     public void draw(Graphics2D g)
     {
-        drawableLines.parallelStream().forEach(l->{l.draw(g);});
+        drawableLines.stream().forEach(l->{l.draw(g);});
         //System.out.println("draw callaed");
     }
 
     @Override
     public void update(int delta)
     {
-        drawableLines.parallelStream().forEach(l->{l.update(delta);});
+        drawableLines.stream().forEach(l->{l.update(delta);});
+        rotationDeg+=getRotationVelocityDeg();
         //System.out.println("update callaed");
     }
 
@@ -52,13 +53,13 @@ public class MyDrawableShape extends MyShape implements IMyDrawable
     @Override
     public void setVelocity(MyPoint vel)
     {
-        drawableLines.parallelStream().forEach(l->{l.setVelocity(vel);});
+        drawableLines.stream().forEach(l->{l.setVelocity(vel);});
     }
 
     @Override
     public void setColor(Color c)
     {
-        drawableLines.parallelStream().forEach(l->{l.setColor(c);});
+        drawableLines.stream().forEach(l->{l.setColor(c);});
     }
 
     @Override
@@ -74,15 +75,13 @@ public class MyDrawableShape extends MyShape implements IMyDrawable
     @Override
     public void setRotationVelocityDeg(double angleStepDegrees)
     {
-        drawableLines.parallelStream().forEach(l->{l.setRotationVelocityDeg(angleStepDegrees);});
+        drawableLines.stream().forEach(l->{l.setRotationVelocityDeg(angleStepDegrees);});
     }
 
     @Override
     public double getRotationVelocityDeg()
-    {
-        MyPoint sum = new MyPoint(0, 0);
-        drawableLines.parallelStream().forEach((MyDrawableLine l)->{sum.translate(new MyPoint((float)l.getRotationVelocityDeg(), 1));});
-        return sum.getX()/sum.getY();
+    {       
+        return drawableLines.stream().mapToDouble(l->{return l.getRotationVelocityDeg();}).average().getAsDouble();
     }
 
     @Override

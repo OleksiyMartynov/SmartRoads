@@ -14,6 +14,7 @@ public class MyPoint implements IMyPhysical
     private float x,y;
     private MyPoint pivot;
     private double rotation=0;
+    
     private MyPoint(){}
     
     public MyPoint(float x, float y)
@@ -27,6 +28,17 @@ public class MyPoint implements IMyPhysical
         this.x = x;
         this.y = y;
         this.pivot=pivot;
+    }
+    public MyPoint(float x, float y, MyPoint pivot, double rotation)
+    {
+        this.x = x;
+        this.y = y;
+        this.pivot=pivot;
+        this.rotation=rotation;
+    }
+    public MyPoint copy()
+    {
+        return new MyPoint(x, y, pivot, rotation);
     }
     @Override
     public MyPoint getCenter()
@@ -145,5 +157,10 @@ public class MyPoint implements IMyPhysical
     {
         return new MyPoint((float)(x/magnitude()), (float)(y/magnitude()));
     }
-    
+    public static MyPoint averagePoint(List<MyPoint> pl)
+    {
+        double xAvg=pl.stream().mapToDouble(cp->{return (double)cp.getX();}).average().getAsDouble();
+        double yAvg=pl.stream().mapToDouble(cp->{return (double)cp.getY();}).average().getAsDouble();
+        return new MyPoint((float)xAvg, (float)yAvg);
+    }
 }

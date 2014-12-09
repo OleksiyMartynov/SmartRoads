@@ -39,8 +39,7 @@ public class MyDrawablePoint extends MyPoint implements IMyDrawable
         float newX = velocity.getX();
         float newY = velocity.getY();
         rotateByDeg(rotationVelocityDeg);
-        translate(new MyPoint(newX, newY));
-        
+        translate(new MyPoint(newX, newY));        
     }
 
     @Override
