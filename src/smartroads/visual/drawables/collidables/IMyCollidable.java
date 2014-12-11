@@ -15,4 +15,9 @@ public interface IMyCollidable extends IMyDrawable
     public ArrayList<MyPoint> isColliding(IMyCollidable other);
     public ArrayList<MyPoint> willCollide(IMyCollidable other);
     public List<MyLine> getNextFrameLines();
+    
+    public interface IMyAfterCollisionFunction
+    {
+        public void doThisOnUpdate(int delta);
+    }
 }

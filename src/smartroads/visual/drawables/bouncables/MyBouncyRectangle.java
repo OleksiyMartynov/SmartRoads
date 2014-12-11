@@ -18,6 +18,7 @@ import smartroads.visual.drawables.collidables.MyCollidableRectangle;
 public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBouncyObject
 {
     private boolean colisionEnabled=true;
+    private IMyAfterCollisionFunction afterCollisionFunction =null;
     public MyBouncyRectangle(List<MyDrawableLine> drawableLines, Color c)
     {
         super(drawableLines, c);
@@ -28,9 +29,11 @@ public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBounc
     {
         
         ArrayList<MyPoint> collisionPoints=super.isColliding(other); 
-        /*
+        
         if(collisionPoints!=null&&collisionPoints.size()>0)
-        {                               
+        {       
+            //this.setVelocity(new MyPoint(0, 0));
+            /*
             for(MyPoint p : collisionPoints)
             {                                  
                     if(colisionEnabled)//todo find the point closest to colision point and work with that point
@@ -56,8 +59,10 @@ public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBounc
                     }
                     break;
                 
-            }            
-        }        
+            }    
+                    */
+        }  
+        /*
         else 
         {            
             if(!colisionEnabled)
@@ -65,8 +70,9 @@ public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBounc
             colisionEnabled=true;
             System.out.println("colision enabled");
             }
-        }
-                */
+        }*/
+              
+        
         return collisionPoints;
     }
 
@@ -117,13 +123,18 @@ public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBounc
             if(closestPoint!=null)
             {
                 closestPoint = MyPoint.averagePoint(sameMagnitudePoints);
+                
+                //debugging
                 MyDrawablePoint dp= new MyDrawablePoint(closestPoint.getX(), closestPoint.getY());
                 dp.setColor(Color.GREEN);
                 MyDrawableWorld.getInstance().addDrawables(dp);
-                //setVelocity(new MyPoint(0, 0));
                 
                 //bounce logic
-                MyPoint n = this.getCenter().subtract(other.getCenter());
+                MyPoint pointToWallDistance = closestPoint.subtract(collisionPoint);
+                MyPoint distanceRemainder= this.getVelocity().subtract(pointToWallDistance);
+                
+                
+                MyPoint n = collisionPoint.subtract(this.getCenter());//this.getCenter().subtract(other.getCenter());
                 n=n.normal();
                 double a1=this.getVelocity().dot(n);
                 double a2=other.getVelocity().dot(n);
@@ -132,14 +143,16 @@ public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBounc
                 float w2=other.getWeight();
                 
                 double optimizedP=(2.0*(a1-a2))/(w1+w2);
-                MyPoint v1=this.getVelocity().subtract(n.multiply(new MyPoint((float)(optimizedP*w2),(float)(optimizedP*w2)))).scale(0.25f);
+                MyPoint v1=this.getVelocity().subtract(n.multiply(new MyPoint((float)(optimizedP*w2),(float)(optimizedP*w2)))).scale(0.28f);
                 this.setVelocity(v1);
                 if(other instanceof MyBouncyRectangle)//if not bouncy then it is static or unmovable
                 {
                     
-                    MyPoint v2=other.getVelocity().add(n.multiply(new MyPoint((float)(optimizedP*w1),(float)(optimizedP*w1)))).scale(0.25f);
+                    MyPoint v2=other.getVelocity().add(n.multiply(new MyPoint((float)(optimizedP*w1),(float)(optimizedP*w1)))).scale(0.28f);
                     other.setVelocity(v2);
+                    
                 }
+                
                 
                 //bounce logic ends
             }     
@@ -155,6 +168,20 @@ public class MyBouncyRectangle extends MyCollidableRectangle implements IMyBounc
             }
         }
         return collisionPoints;
+    }
+
+    @Override
+    public void update(int delta)
+    {
+        if(afterCollisionFunction==null)
+        {
+            super.update(delta); 
+        }
+        else
+        {
+            afterCollisionFunction.doThisOnUpdate(delta);
+            afterCollisionFunction = null;
+        }
     }
     
     

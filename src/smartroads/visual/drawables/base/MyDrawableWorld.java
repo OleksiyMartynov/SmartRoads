@@ -81,7 +81,7 @@ public class MyDrawableWorld implements IMyDrawable
         System.out.println(dl.getCenter().toString());
         //dl.rotateByDeg(-53.5f);
         //dl.rotateByDeg(dl.getCenter(), 20);
-        //dl.setRotationVelocityDeg(4.0f);
+        //dl.setRotationVelocityDeg(1.0f);
         //dl.setVelocity(new MyPoint(0f,-2f));
         
         
@@ -104,17 +104,17 @@ public class MyDrawableWorld implements IMyDrawable
         
         MyCar car = new MyCar(new MyPoint(124f, 10f));
         car.pressGasPedal();
-        car.turnRight();
+        //car.turnRight();
         MyCar car2 = new MyCar(new MyPoint(124f,220f));
         car2.pressBrakePedal();
-        car2.turnLeft();
+        //car2.turnLeft();
         //car.turnRight();
         
         
         
         
-        colidables.add(car);
-        colidables.add(car2);
+        //colidables.add(car);
+        //colidables.add(car2);
         //colidables.add(dl);
         //colidables.add(dl2);
         //colidables.add(dl3);
@@ -147,7 +147,7 @@ public class MyDrawableWorld implements IMyDrawable
         colidables.stream().forEach(d1->{colidables.stream().forEach(d2->{
             if(d2!=d1)
             {
-                //d2.isColliding(d1);
+                d2.isColliding(d1);
             }
         });});
         colidables.stream().forEach(d1->{colidables.stream().forEach(d2->{
