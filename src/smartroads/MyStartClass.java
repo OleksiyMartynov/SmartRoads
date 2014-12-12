@@ -1,8 +1,13 @@
 package smartroads;
 
 
+import brain.genetic.IMyFitnessTestFunction;
+import brain.genetic.MyPopulation;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.display.MyCanvasWindow;
 import smartroads.visual.drawables.base.MyDrawableWorld;
@@ -20,7 +25,7 @@ public class MyStartClass {
      */
     public static void main(String[] args) 
     {   
-        
+        /*
         MyDrawableWorld world = MyDrawableWorld.getInstance();
         MyCanvasWindow cw= new MyCanvasWindow(300, 300, world);
         cw.setMouseListener(new MouseListener()
@@ -54,7 +59,41 @@ public class MyStartClass {
             {
             }
         });
-        cw.startWindow();
+        cw.startWindow();*/
+        IMyFitnessTestFunction testFunc = new IMyFitnessTestFunction()
+        {
+
+            @Override
+            public int testFitness(List<Integer> list)
+            {
+                //System.out.println("list size:"+list.size());
+                return (int)list.stream().mapToInt(i->evaluate(i)).sum()/list.size();
+            }
+            private int evaluate(int given)
+            {
+                //System.out.println("g"+given);
+                if(given%2==0)
+                {
+                    return 100;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        };
+        MyPopulation pop = new MyPopulation(25, 7, testFunc);
+        for(int i=0;i<1000; i++)
+        {
+            try {
+                pop.nextGeneration();
+            } catch (Exception ex) {
+                Logger.getLogger(MyStartClass.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Population #"+i);
+            System.out.println("-average fitnes:"+pop.getAverageFitness());            
+        }
+        pop.getMostFitIndividual().getData().forEach(i->{System.out.println(""+i);});
     }
     
 }

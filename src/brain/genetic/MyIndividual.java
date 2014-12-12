@@ -2,6 +2,7 @@ package brain.genetic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -15,6 +16,7 @@ public class MyIndividual
     private boolean allowDataSizeMutation=true;
     private boolean allowMutationProbabilityDrift=true;
     private double mutationProbability; 
+    private Integer fitness =null;
     private IMyFitnessTestFunction fitnessTest;
     public MyIndividual(int dataSize, boolean allowDataSizeMutation, double mutationProbabilityPerGeneration, boolean allowMutationProbabilityDrift, IMyFitnessTestFunction fitnessTest) throws Exception
     {
@@ -63,13 +65,116 @@ public class MyIndividual
         }
         
     }
-    public MyIndividual getOffspring(MyIndividual other)
+    public MyIndividual getOffspring(MyIndividual other) throws Exception
     {
-        return null;
+        if(this!=other)
+        {
+            List<Integer> d= mixTwoLists(data, other.getData());
+            //System.out.println("Creating offspring:");
+            if(this.allowMutationProbabilityDrift)
+            {
+                double r =Math.random();
+                if(r<0.5)
+                {
+                    mutationProbability*=1.0-r;
+                }
+                else
+                {
+                    mutationProbability*=1.0+r;
+                }
+                if(mutationProbability>1.0)
+                {
+                    mutationProbability=1.0;
+                }
+                else if(mutationProbability<0)
+                {
+                    mutationProbability=0;
+                }
+            }
+            //System.out.println("-mutation probablity [0..1]:"+mutationProbability);
+            double r = Math.random();
+            Random rand= new Random();   
+            if(r<mutationProbability) 
+            {       
+                //System.out.println("-has mutation");
+                if(allowDataSizeMutation&&r<mutationProbability/d.size())// try and make a new random list 
+                {
+                    double s =Math.random();
+                    int newSize =data.size();
+                    if(s<0.5)
+                    {
+                        newSize*=1.0-r;
+                    }
+                    else
+                    {
+                        newSize*=1.0+r;
+                    }
+                    if(newSize<5)
+                    {
+                        newSize=data.size();
+                    }
+                    //System.out.println("-data size mutated to "+newSize);
+                    return new MyIndividual(makeRandomList(newSize),true, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest);
+                }
+                else//make one item random
+                {
+                    //System.out.println("-data item mutated");
+                    return new MyIndividual(mutateRandomItem(d),true, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest);
+                }
+
+            }
+            return new MyIndividual(d,false, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest);
+        }
+        else
+        {
+            throw new Exception("cannot mix two of the same instance");
+        }
     }
-    public float getFitness()
+    private List<Integer>mixTwoLists(List<Integer> l1, List<Integer> l2)
     {
-        return 0;
+        int newSize =(l1.size()+l2.size())/2;
+        //System.out.println("newSize"+newSize);
+        List<Integer> newList = new ArrayList<>();
+        for(int i=0; i<newSize; i++)
+        {
+            newList.add(0);
+        }
+        boolean flag = true;
+        Random r= new Random();
+        for(int i =0; i<newSize; i++)
+        {
+            if(Math.random()<0.5)
+            {                
+                if(i<l1.size())
+                {
+                    newList.set(i, l1.get(i));
+                }
+                else
+                {
+                    newList.set(i, l2.get(i));
+                }
+            }
+            else
+            {
+                if(i<l2.size())
+                {
+                    newList.set(i, l2.get(i));
+                }
+                else
+                {
+                    newList.set(i, l1.get(i));
+                }
+            }
+        }
+        return newList;
+    }
+    public int getFitness()
+    {
+        if(fitness==null)
+        {
+            fitness =this.fitnessTest.testFitness(this.data);
+        }
+        return fitness;
     }    
     public List<Integer> getData()
     {
@@ -79,14 +184,21 @@ public class MyIndividual
     {
         return this.isMutated;
     }
+    private List<Integer> mutateRandomItem(List<Integer> list)
+    {
+        Random r = new Random();
+        int rIndex= r.nextInt(list.size());
+        list.set(rIndex, r.nextInt());
+        return list;
+    }
     private List<Integer> makeRandomList(int size)
     {
-        List<Integer> d= new ArrayList<>(size);
-        for(int i =0; i< d.size(); i++)
+        Random r = new Random();
+        List<Integer> d= new ArrayList<>();
+        for(int i =0; i< size; i++)
         {
-            d.set(i, (int)(Math.random()*(Integer.MAX_VALUE-1)));
+            d.add( r.nextInt());
         }
-        //todo test random list
         return d;
     }
 }

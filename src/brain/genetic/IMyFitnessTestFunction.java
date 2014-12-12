@@ -8,5 +8,5 @@ import java.util.List;
  */
 public interface IMyFitnessTestFunction
 {
-    public float testFitness(List<Number> list);
+    public int testFitness(List<Integer> list);
 }
