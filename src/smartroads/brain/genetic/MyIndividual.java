@@ -1,4 +1,4 @@
-package brain.genetic;
+package smartroads.brain.genetic;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -70,6 +70,11 @@ public class MyPoint implements IMyPhysical
         x+=other.getX();
         y+=other.getY();
     }
+    public void scale(MyPoint v)
+    {
+        x*=v.getX();
+        y*=v.getY();
+    }
     @Override
     public void rotateByDeg(MyPoint pivotPoint, double angleDegrees)
     {
