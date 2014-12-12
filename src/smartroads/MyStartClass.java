@@ -82,18 +82,30 @@ public class MyStartClass {
                 }
             }
         };
-        MyPopulation pop = new MyPopulation(25, 7, testFunc);
-        for(int i=0;i<1000; i++)
+        
+        try 
         {
-            try {
+            MyPopulation pop = new MyPopulation(50, 100, testFunc);
+            for(int i=0;i<1000; i++)
+        {
+            try 
+            {
                 pop.nextGeneration();
-            } catch (Exception ex) {
+            } 
+            catch (Exception ex) 
+            {
                 Logger.getLogger(MyStartClass.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("Population #"+i);
             System.out.println("-average fitnes:"+pop.getAverageFitness());            
         }
         pop.getMostFitIndividual().getData().forEach(i->{System.out.println(""+i);});
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(MyStartClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

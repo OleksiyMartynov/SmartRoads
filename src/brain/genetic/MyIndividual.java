@@ -18,6 +18,7 @@ public class MyIndividual
     private double mutationProbability; 
     private Integer fitness =null;
     private IMyFitnessTestFunction fitnessTest;
+    public static final int MIN_DATA_SIZE =0;
     public MyIndividual(int dataSize, boolean allowDataSizeMutation, double mutationProbabilityPerGeneration, boolean allowMutationProbabilityDrift, IMyFitnessTestFunction fitnessTest) throws Exception
     {
         if(dataSize>0)
@@ -103,18 +104,18 @@ public class MyIndividual
                     int newSize =data.size();
                     if(s<0.5)
                     {
-                        newSize*=1.0-r;
+                        newSize*=1.0-s;
                     }
                     else
                     {
-                        newSize*=1.0+r;
+                        newSize*=1.0+s;
                     }
-                    if(newSize<5)
+                    if(newSize<MIN_DATA_SIZE)
                     {
                         newSize=data.size();
                     }
-                    //System.out.println("-data size mutated to "+newSize);
-                    return new MyIndividual(makeRandomList(newSize),true, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest);
+                    System.out.println("-data size mutated to "+newSize);
+                    return new MyIndividual(makeRandomList(newSize),true, allowDataSizeMutation, (mutationProbability+other.mutationProbability)/2, allowMutationProbabilityDrift, fitnessTest);
                 }
                 else//make one item random
                 {
@@ -132,6 +133,7 @@ public class MyIndividual
     }
     private List<Integer>mixTwoLists(List<Integer> l1, List<Integer> l2)
     {
+        
         int newSize =(l1.size()+l2.size())/2;
         //System.out.println("newSize"+newSize);
         List<Integer> newList = new ArrayList<>();
@@ -166,6 +168,15 @@ public class MyIndividual
                 }
             }
         }
+        //debugging
+        /*
+        System.out.println("List one");
+        l1.forEach(x->{System.out.println(""+x);});
+        System.out.println("List two");
+        l2.forEach(y->{System.out.println(""+y);});
+        System.out.println("List mixed");
+        newList.forEach(z->{System.out.println(""+z);});
+                */
         return newList;
     }
     public int getFitness()

@@ -11,9 +11,20 @@ import java.util.stream.Collectors;
 public class MyPopulation
 {    
     private List<MyIndividual> population;
-    private Integer maxFitness, avgFitness;
-    public MyPopulation(int populationSize,int dataSize,IMyFitnessTestFunction fitnessTester)
+    public MyPopulation(int populationSize,int dataSize,IMyFitnessTestFunction fitnessTester) throws Exception
     {
+        if(populationSize<4)
+        {
+            throw new Exception("population size should be 4 or greater");
+        }
+        if(dataSize<MyIndividual.MIN_DATA_SIZE)
+        {
+            throw new Exception("data size should be 4 or greater");
+        }
+        if(fitnessTester==null)
+        {
+            throw new Exception("fitnessTester function Cannot be null");
+        }
         population=new ArrayList<>();
         try
         {
@@ -30,11 +41,24 @@ public class MyPopulation
     public void nextGeneration() throws Exception
     {
         List<MyIndividual> left,right;
-        left=population.subList(0, population.size()/2);
-        right=population.subList(population.size()/2, population.size());
+        left=new ArrayList<>();
+        right=new ArrayList<>();
+        for(int i =0; i<population.size(); i++)
+        {
+            if(i%2==0)
+            {
+                left.add(population.get(i));
+            }
+            else
+            {
+                right.add(population.get(i));
+            }
+        }
+        
         List<MyIndividual> newPopulation = new ArrayList<>();
-        left=left.stream().sorted((one,two)-> one.getFitness()-two.getFitness()).collect(Collectors.toList());
-        right=right.stream().sorted((one,two)-> one.getFitness()-two.getFitness()).collect(Collectors.toList());
+        left=left.stream().sorted((one,two)-> two.getFitness()-one.getFitness()).collect(Collectors.toList());
+        right=right.stream().sorted((one,two)-> two.getFitness()-one.getFitness()).collect(Collectors.toList());
+        
         for(int i =0; i<left.size(); i++)
         {
             //System.out.println("i"+i);
@@ -63,23 +87,15 @@ public class MyPopulation
             newPopulation.add(left.get(1).getOffspring(right.get(1)));
         }
         this.population = newPopulation.subList(0, population.size());  //maybe mutate the population size
-        System.out.println("new population size"+newPopulation.size());
+        System.out.println("population size"+newPopulation.size());
     }
     public int getMaxFitness()
-    {
-        if(maxFitness==null)
-        {
-            maxFitness = population.stream().mapToInt(i->i.getFitness()).max().getAsInt();
-        }
-        return maxFitness;
+    {        
+        return population.stream().mapToInt(i->i.getFitness()).max().getAsInt();
     }
     public int getAverageFitness()
-    {
-        if(avgFitness==null)
-        {
-            avgFitness = population.stream().mapToInt(i->i.getFitness()).sum()/population.size();
-        }
-        return avgFitness;
+    {        
+        return population.stream().mapToInt(i->i.getFitness()).sum()/population.size();
     }
     public MyIndividual getMostFitIndividual()
     {
