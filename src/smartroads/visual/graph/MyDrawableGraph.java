@@ -51,38 +51,46 @@ public class MyDrawableGraph implements IMyDrawable
         //System.out.println("minY"+minY);
         //System.out.println("maxX"+maxX);
         //System.out.println("maxY"+maxY);
-        g.clearRect(0, 0, windowWidth, windowHeight);
-        MyPoint translateByVector=new MyPoint(-minX,-minY);
-        float scaleX,scaleY;
-        try{
-        scaleX=(maxX==0)?0:windowWidth/(maxX-minX);
-        scaleY=(maxY==0)?0:windowHeight/(maxY-minY);
+        try
+        {
+            g.clearRect(0, 0, windowWidth, windowHeight);
+            MyPoint translateByVector=new MyPoint(-minX,-minY);
+            float scaleX,scaleY;
+            try{
+            scaleX=(maxX==0)?0:windowWidth/(maxX-minX);
+            scaleY=(maxY==0)?0:windowHeight/(maxY-minY);
+            }
+            catch(Exception e)
+            {
+                scaleX=0;
+                scaleY=0;
+            }
+
+            MyPoint scaleByVector=new MyPoint(scaleX, scaleY);
+            translateByVector.scale(scaleByVector);
+            MyDrawablePoint previousPoint=null;
+            for(MyGraphPoint gp : graphData)
+            {
+                MyDrawablePoint thisPoint = new MyDrawablePoint(gp.getX().intValue(), gp.getY().intValue());
+                thisPoint.scale(scaleByVector); 
+                thisPoint.translate(translateByVector);
+
+                thisPoint=new MyDrawablePoint(thisPoint.getX(),windowHeight-thisPoint.getY());
+                if(previousPoint==null)
+                {
+                    previousPoint=thisPoint;
+                }
+                MyDrawableLine dl = new MyDrawableLine(thisPoint, previousPoint);
+                dl.setColor(Color.BLACK);
+                dl.draw(g);
+                previousPoint=thisPoint;
+            }
         }
         catch(Exception e)
         {
-            scaleX=0;
-            scaleY=0;
+            
         }
         
-        MyPoint scaleByVector=new MyPoint(scaleX, scaleY);
-        translateByVector.scale(scaleByVector);
-        MyDrawablePoint previousPoint=null;
-        for(MyGraphPoint gp : graphData)
-        {
-            MyDrawablePoint thisPoint = new MyDrawablePoint(gp.getX().intValue(), gp.getY().intValue());
-            thisPoint.scale(scaleByVector); 
-            thisPoint.translate(translateByVector);
-                       
-            thisPoint=new MyDrawablePoint(thisPoint.getX(),windowHeight-thisPoint.getY());
-            if(previousPoint==null)
-            {
-                previousPoint=thisPoint;
-            }
-            MyDrawableLine dl = new MyDrawableLine(thisPoint, previousPoint);
-            dl.setColor(Color.BLACK);
-            dl.draw(g);
-            previousPoint=thisPoint;
-        }
     }
 
     @Override
