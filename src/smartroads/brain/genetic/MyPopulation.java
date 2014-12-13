@@ -13,6 +13,33 @@ public class MyPopulation <U extends Number>
 {    
     private List<MyIndividual<U>> population;
     int generationCount=0;
+    public MyPopulation(int populationSize,int dataSize,IMyFitnessTestFunction<U> fitnessTester, IMyRandomDataFunction<U> rFunc, boolean allowDataSizeMutation) throws Exception
+    {
+        if(populationSize<4)
+        {
+            throw new Exception("population size should be 4 or greater");
+        }
+        if(dataSize<MyIndividual.MIN_DATA_SIZE)
+        {
+            throw new Exception("data size should be 4 or greater");
+        }
+        if(fitnessTester==null)
+        {
+            throw new Exception("fitnessTester function Cannot be null");
+        }
+        population=new ArrayList<>();
+        try
+        {
+            for(int i =0; i<populationSize;i++)
+            {                
+                population.add( new MyIndividual(dataSize, false, 0.99, true, fitnessTester, rFunc));
+            }
+        }
+        catch(Exception e)
+        {
+            System.err.println("ex in individual's constructor:"+e.getMessage());
+        }
+    }
     public MyPopulation(int populationSize,int dataSize,IMyFitnessTestFunction<U> fitnessTester, IMyRandomDataFunction<U> rFunc) throws Exception
     {
         if(populationSize<4)

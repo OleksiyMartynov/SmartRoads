@@ -102,7 +102,7 @@ public class MyStartClass {
             MyDrawableGraph dg= new MyDrawableGraph(MyDrawableGraph.SortByAxis.xAxis, MyDrawableGraph.SortDirection.asc, 800, 600);
             MyCanvasWindow graphWindow = new MyCanvasWindow(800, 600, dg);
             graphWindow.startWindow();
-            MyPopulation<Integer> pop = new MyPopulation(50, 100, tFunc, rFunc);
+            MyPopulation<Integer> pop = new MyPopulation(50, 10, tFunc, rFunc,false);
             for(int i=0;i<1000; i++)
         {
             try 
