@@ -5,10 +5,14 @@ import smartroads.brain.genetic.IMyFitnessTestFunction;
 import smartroads.brain.genetic.MyPopulation;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import smartroads.brain.genetic.IMyRandomDataFunction;
+import smartroads.brain.genetic.MyIndividual;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.display.MyCanvasWindow;
 import smartroads.visual.drawables.base.MyDrawableWorld;
@@ -63,9 +67,17 @@ public class MyStartClass {
             }
         });
         cw.startWindow();*/
-        IMyFitnessTestFunction testFunc = new IMyFitnessTestFunction()
+        IMyRandomDataFunction<Integer> rFunc = new IMyRandomDataFunction()
         {
-
+            private final Random r = new Random();
+            @Override
+            public Integer getRandom()
+            {
+                return r.nextInt();
+            }
+        };
+        IMyFitnessTestFunction<Integer> tFunc = new IMyFitnessTestFunction<Integer>()
+        {
             @Override
             public int testFitness(List<Integer> list)
             {
@@ -85,20 +97,20 @@ public class MyStartClass {
                 }
             }
         };
-        
         try 
         {
             MyDrawableGraph dg= new MyDrawableGraph(MyDrawableGraph.SortByAxis.xAxis, MyDrawableGraph.SortDirection.asc, 800, 600);
             MyCanvasWindow graphWindow = new MyCanvasWindow(800, 600, dg);
             graphWindow.startWindow();
-            MyPopulation pop = new MyPopulation(50, 100, testFunc);
+            MyPopulation<Integer> pop = new MyPopulation(50, 100, tFunc, rFunc);
             for(int i=0;i<1000; i++)
         {
             try 
             {
                 pop.nextGeneration();
                 int avgFitness =pop.getAverageFitness();
-               List<MyGraphPoint> graphPoints=pop.getPopulation().stream().map(p->new MyGraphPoint(pop.getGenerationCount(),avgFitness)).collect(Collectors.toList());
+               List<MyGraphPoint<Integer,Integer>> graphPoints=pop.getPopulation().stream().map(p->new MyGraphPoint<>(pop.getGenerationCount(),avgFitness)).collect(Collectors.toList());
+               
                 graphPoints.stream().forEach(si->{try {
                     dg.addGraphItem(si);
                     } catch (Exception ex) {

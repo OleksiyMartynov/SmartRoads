@@ -9,55 +9,59 @@ import java.util.Random;
  * @author Oleksiy
  * @param <U>
  */
-public class MyIndividual
+public class MyIndividual <U extends Number>
 {
-    private List<Integer> data = new ArrayList<>();
+    private List<U> data = new ArrayList<>();
     private boolean isMutated =false;
     private boolean allowDataSizeMutation=true;
     private boolean allowMutationProbabilityDrift=true;
     private double mutationProbability; 
     private Integer fitness =null;
     private IMyFitnessTestFunction fitnessTest;
+    private IMyRandomDataFunction<U> rFunc;
     public static final int MIN_DATA_SIZE =0;
-    public MyIndividual(int dataSize, boolean allowDataSizeMutation, double mutationProbabilityPerGeneration, boolean allowMutationProbabilityDrift, IMyFitnessTestFunction fitnessTest) throws Exception
+    public MyIndividual(int dataSize, boolean allowDataSizeMutation, double mutationProbabilityPerGeneration, boolean allowMutationProbabilityDrift, IMyFitnessTestFunction<U> fitnessTest, IMyRandomDataFunction<U> rFunc) throws Exception
     {
+        
         if(dataSize>0)
         {
+            
+            init(allowDataSizeMutation, mutationProbabilityPerGeneration, allowMutationProbabilityDrift,fitnessTest,rFunc);
             this.data= makeRandomList(dataSize);
-            init(allowDataSizeMutation, mutationProbabilityPerGeneration, allowMutationProbabilityDrift,fitnessTest);
         }
         else
         {
             throw new Exception("invalid dataSize parameter.");
         }
     }
-    public MyIndividual(List<Integer> data, boolean isMutated, boolean allowDataSizeMutation, double mutationProbabilityPerGeneration , boolean allowMutationProbabilityDrift,  IMyFitnessTestFunction fitnessTest) throws Exception
+    public MyIndividual(List<U> data, boolean isMutated, boolean allowDataSizeMutation, double mutationProbabilityPerGeneration , boolean allowMutationProbabilityDrift,  IMyFitnessTestFunction<U> fitnessTest, IMyRandomDataFunction<U> rFunc) throws Exception
     {
         if(data!=null||!data.isEmpty())
         {
             this.data=data;
             this.isMutated=isMutated;
-            init(allowDataSizeMutation, mutationProbabilityPerGeneration, allowMutationProbabilityDrift, fitnessTest);
+            init(allowDataSizeMutation, mutationProbabilityPerGeneration, allowMutationProbabilityDrift, fitnessTest, rFunc);
         }
         else
         {
             throw new Exception("Data array is null or empty.");
         }
     }
-    private void init(boolean allowDataSizeMutation, double mutationProbabilityPerGeneration , boolean allowMutationProbabilityDrift,  IMyFitnessTestFunction fitnessTest) throws Exception
-    {
+    private void init(boolean allowDataSizeMutation, double mutationProbabilityPerGeneration , boolean allowMutationProbabilityDrift,  IMyFitnessTestFunction<U> fitnessTest, IMyRandomDataFunction<U> rFunc) throws Exception
+    {        
         if(mutationProbabilityPerGeneration>=0&&mutationProbabilityPerGeneration<=1.0)
         {
             this.allowDataSizeMutation=allowDataSizeMutation;
             this.allowMutationProbabilityDrift=allowMutationProbabilityDrift;
             this.mutationProbability=mutationProbabilityPerGeneration;
-            if(fitnessTest!=null)
+            if(fitnessTest!=null&&rFunc!=null)
             {
                 this.fitnessTest=fitnessTest;
+                this.rFunc=rFunc;
             }
             else
             {
-                throw new Exception("fitnesTestFunction cannot be null");
+                throw new Exception("fitnesTestFunction or rFunc cannot be null");
             }
         }
         else
@@ -66,11 +70,11 @@ public class MyIndividual
         }
         
     }
-    public MyIndividual getOffspring(MyIndividual other) throws Exception
+    public MyIndividual<U> getOffspring(MyIndividual<U> other) throws Exception
     {
         if(this!=other)
         {
-            List<Integer> d= mixTwoLists(data, other.getData());
+            List<U> d= mixTwoLists(data, other.getData());
             //System.out.println("Creating offspring:");
             if(this.allowMutationProbabilityDrift)
             {
@@ -115,31 +119,31 @@ public class MyIndividual
                         newSize=data.size();
                     }
                     System.out.println("-data size mutated to "+newSize);
-                    return new MyIndividual(makeRandomList(newSize),true, allowDataSizeMutation, (mutationProbability+other.mutationProbability)/2, allowMutationProbabilityDrift, fitnessTest);
+                    return new MyIndividual(makeRandomList(newSize),true, allowDataSizeMutation, (mutationProbability+other.mutationProbability)/2, allowMutationProbabilityDrift, fitnessTest, rFunc);
                 }
                 else//make one item random
                 {
                     //System.out.println("-data item mutated");
-                    return new MyIndividual(mutateRandomItem(d),true, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest);
+                    return new MyIndividual(mutateRandomItem(d),true, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest, rFunc);
                 }
 
             }
-            return new MyIndividual(d,false, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest);
+            return new MyIndividual(d,false, allowDataSizeMutation, mutationProbability, allowMutationProbabilityDrift, fitnessTest, rFunc);
         }
         else
         {
             throw new Exception("cannot mix two of the same instance");
         }
     }
-    private List<Integer>mixTwoLists(List<Integer> l1, List<Integer> l2)
+    private List<U>mixTwoLists(List<U> l1, List<U> l2)
     {
         
         int newSize =(l1.size()+l2.size())/2;
         //System.out.println("newSize"+newSize);
-        List<Integer> newList = new ArrayList<>();
+        List<U> newList = new ArrayList<>();
         for(int i=0; i<newSize; i++)
         {
-            newList.add(0);
+            newList.add(rFunc.getRandom());
         }
         boolean flag = true;
         Random r= new Random();
@@ -187,7 +191,7 @@ public class MyIndividual
         }
         return fitness;
     }    
-    public List<Integer> getData()
+    public List<U> getData()
     {
         return data;
     }
@@ -195,20 +199,19 @@ public class MyIndividual
     {
         return this.isMutated;
     }
-    private List<Integer> mutateRandomItem(List<Integer> list)
+    private List<U> mutateRandomItem(List<U> list)
     {
         Random r = new Random();
         int rIndex= r.nextInt(list.size());
-        list.set(rIndex, r.nextInt());
+        list.set(rIndex, rFunc.getRandom());
         return list;
     }
-    private List<Integer> makeRandomList(int size)
+    private List<U> makeRandomList(int size)
     {
-        Random r = new Random();
-        List<Integer> d= new ArrayList<>();
+        List<U> d= new ArrayList<>();
         for(int i =0; i< size; i++)
         {
-            d.add( r.nextInt());
+            d.add( rFunc.getRandom());
         }
         return d;
     }

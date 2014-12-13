@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 /**
  *
  * @author Oleksiy
+ * @param <U>
  */
-public class MyPopulation
+public class MyPopulation <U extends Number>
 {    
-    private List<MyIndividual> population;
+    private List<MyIndividual<U>> population;
     int generationCount=0;
-    public MyPopulation(int populationSize,int dataSize,IMyFitnessTestFunction fitnessTester) throws Exception
+    public MyPopulation(int populationSize,int dataSize,IMyFitnessTestFunction<U> fitnessTester, IMyRandomDataFunction<U> rFunc) throws Exception
     {
         if(populationSize<4)
         {
@@ -30,19 +31,19 @@ public class MyPopulation
         try
         {
             for(int i =0; i<populationSize;i++)
-            {
-                population.add( new MyIndividual(dataSize, true, 0.99, true, fitnessTester));
+            {                
+                population.add( new MyIndividual(dataSize, true, 0.99, true, fitnessTester, rFunc));
             }
         }
         catch(Exception e)
         {
-            System.err.println("ex in population constructor:"+e.getMessage());
+            System.err.println("ex in individual's constructor:"+e.getMessage());
         }
     }
     public void nextGeneration() throws Exception
     {
         generationCount++;
-        List<MyIndividual> left,right;
+        List<MyIndividual<U>> left,right;
         left=new ArrayList<>();
         right=new ArrayList<>();
         for(int i =0; i<population.size(); i++)
@@ -57,7 +58,7 @@ public class MyPopulation
             }
         }
         
-        List<MyIndividual> newPopulation = new ArrayList<>();
+        List<MyIndividual<U>> newPopulation = new ArrayList<>();
         left=left.stream().sorted((one,two)-> two.getFitness()-one.getFitness()).collect(Collectors.toList());
         right=right.stream().sorted((one,two)-> two.getFitness()-one.getFitness()).collect(Collectors.toList());
         
@@ -92,7 +93,7 @@ public class MyPopulation
         System.out.println("population size"+newPopulation.size());
     }
 
-    public List<MyIndividual> getPopulation()
+    public List<MyIndividual<U>> getPopulation()
     {
         return population;
     }
@@ -109,7 +110,6 @@ public class MyPopulation
     {
         return population.stream().sorted((a,b)->a.getFitness()-b.getFitness()).findFirst().get();
     }
-
     public int getGenerationCount()
     {
         return generationCount;

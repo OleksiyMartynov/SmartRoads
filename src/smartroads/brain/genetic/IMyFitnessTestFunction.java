@@ -5,8 +5,9 @@ import java.util.List;
 /**
  *
  * @author Oleksiy
+ * @param <U>
  */
-public interface IMyFitnessTestFunction
+public interface IMyFitnessTestFunction<U extends Number>
 {
-    public int testFitness(List<Integer> list);
+    public int testFitness(List<U> list);
 }
