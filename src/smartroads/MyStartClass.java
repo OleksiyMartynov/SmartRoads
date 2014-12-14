@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import smartroads.brain.genetic.IMyRandomDataFunction;
 import smartroads.brain.genetic.MyIndividual;
+import smartroads.brain.neural.IMyNeuronFunction;
 import smartroads.primitives.MyPoint;
 import smartroads.visual.display.MyCanvasWindow;
 import smartroads.visual.drawables.base.MyDrawableWorld;
@@ -79,7 +80,7 @@ public class MyStartClass {
         IMyFitnessTestFunction<Integer> tFunc = new IMyFitnessTestFunction<Integer>()
         {
             @Override
-            public int testFitness(List<Integer> list)
+            public int testFitness(List<Integer> list) throws Exception
             {
                 //System.out.println("list size:"+list.size());
                 return (int)list.stream().mapToInt(i->evaluate(i)).sum()/list.size();
@@ -94,6 +95,50 @@ public class MyStartClass {
                 else
                 {
                     return 0;
+                }
+            }
+        };
+        IMyNeuronFunction<Integer> calcFunc = new IMyNeuronFunction<Integer>()
+        {
+            @Override
+            public Integer process(List<Integer> inData, List<Integer> weights, Integer threshold) throws Exception
+            {
+                if(inData.size()!=weights.size())
+                {
+                    throw new Exception("inData size doesnt match weights size");
+                }
+                if(threshold==null)
+                {
+                    throw new Exception("threshold cannot be null");
+                }
+                double total=0;
+                for(int i =0; i<inData.size(); i++)
+                {
+                    
+                    total+=mapIntegerToSpecialDouble(inData.get(i))*mapIntegerToSpecialDouble(weights.get(i));
+                }
+                return mapSpecialDoubleToInteger(1 / (1 + Math.exp((-total) / mapIntegerToSpecialDouble(threshold))));
+            }
+            private double mapIntegerToSpecialDouble(Integer in) //returns double between -1 and 1
+            {
+                if(in>=0)
+                {
+                    return in/Integer.MAX_VALUE;
+                }
+                else
+                {
+                    return in/Integer.MIN_VALUE;
+                }
+            }
+            private int mapSpecialDoubleToInteger(double in)
+            {
+                if(in>=0)
+                {
+                    return (int)(Integer.MAX_VALUE*in);
+                }
+                else
+                {
+                    return (int)(Integer.MIN_VALUE*in);
                 }
             }
         };
