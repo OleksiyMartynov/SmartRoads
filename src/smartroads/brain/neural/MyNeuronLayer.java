@@ -50,14 +50,14 @@ public class MyNeuronLayer <U extends Number>
     public List<U> getOutput(List<U> inData) throws Exception
     {        
         int neuronsTotalInputs=getInputCount();
-        if(inData.size()!=neuronsTotalInputs)
+        if(inData.size()==neuronsTotalInputs)
         {
             int index=0;
             List<U>outData = new ArrayList<>();
             for(MyNeuron<U> n : neurons)
             {
                 
-                n.getOutput(inData.subList(index, n.getWeightsCount()));
+                outData.add(n.getOutput(inData.subList(index, index+n.getWeightsCount())));
                 index+=n.getWeightsCount();
             }
             return outData;

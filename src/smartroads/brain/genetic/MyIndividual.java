@@ -183,7 +183,7 @@ public class MyIndividual <U extends Number>
                 */
         return newList;
     }
-    public int getFitness()
+    public int getFitness() 
     {
         if(fitness==null)
         {

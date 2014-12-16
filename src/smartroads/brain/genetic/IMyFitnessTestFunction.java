@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface IMyFitnessTestFunction<U extends Number>
 {
-    public int testFitness(List<U> list)throws Exception;
+    public int testFitness(List<U> list);
 }

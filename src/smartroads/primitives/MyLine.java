@@ -104,4 +104,11 @@ public class MyLine implements IMyPhysical
         }
         return perimiter;
     }
+
+    @Override
+    public String toString()
+    {
+        return "MyLine{" + "pOne=" + pOne + ", pTwo=" + pTwo + ", pivot=" + pivot + '}';
+    }
+    
 }

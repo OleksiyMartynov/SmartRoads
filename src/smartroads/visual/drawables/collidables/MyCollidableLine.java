@@ -32,7 +32,7 @@ public class MyCollidableLine extends MyDrawableLine implements IMyCollidable
         {
             MyDrawablePoint dp = new MyDrawablePoint(p.getX(), p.getY());
             dp.setColor(Color.RED);            
-            MyDrawableWorld.getInstance().addDrawables(dp);
+            //MyDrawableWorld.getInstance().addDrawables(dp);
         }
         });    
         return cps;

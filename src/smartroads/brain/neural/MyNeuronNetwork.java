@@ -27,9 +27,9 @@ public class MyNeuronNetwork<U extends Number>
         {
             throw new Exception("input number must be a power of two");
         }
-        if((outputs & (outputs - 1)) != 0 || outputs !=1)//if not power of two or number 1
+        if((outputs & (outputs - 1)) != 0 && outputs !=1)//if not power of two or number 1
         {
-            throw new Exception("outputs number must be a power of two or number 1");
+            throw new Exception("outputs number must be a power of two or number 1 but it is "+outputs);
         }
         if(calcFunc==null)
         {
@@ -63,13 +63,15 @@ public class MyNeuronNetwork<U extends Number>
         int outputs =outputDataSize;
         layers = new ArrayList<>();
         int index=0;
+        //System.out.println("size:"+weightsAndThresholds.size());
         while(inputs!=outputs)
         {
            inputs/=inputsPerNeuron;    //neurons per layer       
            List<MyNeuron<U>> neurons = new ArrayList<>();
            for(int i=0; i<inputs; i++)
            {
-               neurons.add(new MyNeuron<>(weightsAndThresholds.subList(index, inputs),calcFunc,weightsAndThresholds.get(++index)));
+               //System.out.println("i:"+i);
+               neurons.add(new MyNeuron<>(weightsAndThresholds.subList(index, index+inputs),calcFunc,weightsAndThresholds.get(++index)));
                index+=inputs;
            }
            layers.add(new MyNeuronLayer<>(neurons));           
@@ -83,7 +85,7 @@ public class MyNeuronNetwork<U extends Number>
         }
         if(inData.size()!=inputDataSize)
         {
-            throw new Exception("inData size doesnt match promissed size");
+            throw new Exception("inData size doesnt match promissed size. inData size is "+ inData.size()+" but should be "+inputDataSize);
         }
         if(inData.size()!=layers.get(0).getInputCount())
         {
